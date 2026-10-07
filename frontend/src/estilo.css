@@ -1,0 +1,6 @@
+:root { font-family: system-ui, sans-serif; color: #1b1b1b; background: #fff; }
+body { margin: 0; }
+.cabecalho { background: #0b3d6e; color: #fff; padding: 1rem 1.5rem; }
+.cabecalho h1 { margin: 0 0 0.25rem; font-size: 1.5rem; }
+main { padding: 1.5rem; max-width: 960px; }
+.erro { color: #a4000f; }

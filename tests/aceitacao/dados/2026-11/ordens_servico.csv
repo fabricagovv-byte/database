@@ -1,0 +1,8 @@
+os_id,servico_id,complexidade,ust_definida,status,data_conclusao,aceite_cvm
+OS-001,15,alta,,concluida,2026-11-05,S
+OS-002,12,media,,concluida,2026-11-12,S
+OS-003,17,baixa,,concluida,2026-11-18,S
+OS-004,20,alta,40,concluida,2026-11-26,S
+OS-005,6,alta,,concluida,2026-10-28,S
+OS-006,10,media,,em_execucao,,N
+OS-007,7,alta,,concluida,2026-11-20,N

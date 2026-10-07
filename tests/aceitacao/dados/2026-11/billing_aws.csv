@@ -1,0 +1,8 @@
+line_item_usage_start_date,line_item_usage_account_id,line_item_resource_id,product_sku,line_item_usage_amount,pricing_unit,line_item_unblended_cost,resource_tags_user_projeto
+2026-11-01T00:00:00Z,111122223333,i-0app01,SAE1-BoxUsage:m6i.xlarge,720,hora,218.88,app-fiscalizacao
+2026-11-01T00:00:00Z,111122223333,i-0app02,SAE1-BoxUsage:m6i.xlarge,720,hora,218.88,app-fiscalizacao
+2026-11-01T00:00:00Z,111122223333,s3-arquivo-cvm,SAE1-TimedStorage-ByteHrs,5000,GB_mes,202.50,arquivo
+2026-11-01T00:00:00Z,111122223333,db-app01,SAE1-InstanceUsage:db.m6g.large,720,hora,187.20,app-fiscalizacao
+2026-11-01T00:00:00Z,111122223333,ws-diretoria,SAE1-AW-HW-2,20,usuario_mes,740.00,corporativo
+2026-11-01T00:00:00Z,111122223333,i-0app01,SAE1-DataTransfer-Regional-Bytes-SameAZ,9000,GB,0.00,app-fiscalizacao
+2026-11-03T00:00:00Z,999988887777,i-0outro,SAE1-BoxUsage:m6i.xlarge,100,hora,30.40,outro-cliente

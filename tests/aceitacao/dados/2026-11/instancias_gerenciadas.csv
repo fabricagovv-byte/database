@@ -1,0 +1,7 @@
+instancia_id,csp,tipo,os_inclusao,data_inclusao,data_exclusao
+vm-sei-01,azure,maquina_virtual,OS-0101,2026-10-01,
+sql-sei-01,azure,banco_de_dados,OS-0102,2026-10-15,
+aks-portal,azure,orquestrador_conteineres,OS-0110,2026-11-16,
+i-0app01,aws,maquina_virtual,OS-0095,2026-09-01,2026-11-10
+db-app01,aws,banco_de_dados,OS-0111,2026-11-01,
+i-0app02,aws,maquina_virtual,OS-0120,2026-12-01,

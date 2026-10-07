@@ -1,0 +1,13 @@
+sku_contrato,csp,sku_provedor,descricao,categoria,metrica,fator_usn_usd,preco_calculadora_usd,gratuito
+AZ-001,azure,Virtual Machines Dsv5 Series - D4s v5 - Brazil South,VM D4s v5 (4 vCPU 16 GiB),IaaS,hora,0.2340,0.2400,N
+AZ-002,azure,Premium SSD Managed Disks - P30 LRS Disk - Brazil South,Disco gerenciado P30 1 TiB,IaaS,disco_mes,122.8800,135.1700,N
+AZ-003,azure,Bandwidth - Standard Data Transfer Out - Zone 3,Tráfego de saída para internet,IaaS,GB,0.0870,0.0870,N
+AZ-004,azure,Bandwidth - Standard Data Transfer In,Tráfego de entrada,IaaS,GB,0.0000,0.0000,S
+AZ-005,azure,SQL Database - General Purpose Gen5 4 vCore - Brazil South,Azure SQL Database GP 4 vCore,PaaS,hora,0.9940,1.0100,N
+AZ-006,azure,Azure Kubernetes Service - Standard Uptime SLA,AKS camada Standard,PaaS,cluster_hora,0.1000,0.1000,N
+AZ-007,azure,Microsoft Entra ID P1,Microsoft Entra ID P1,SaaS,usuario_mes,6.0000,6.0000,N
+AW-001,aws,SAE1-BoxUsage:m6i.xlarge,EC2 m6i.xlarge Linux,IaaS,hora,0.2960,0.3040,N
+AW-002,aws,SAE1-TimedStorage-ByteHrs,S3 Standard,IaaS,GB_mes,0.0405,0.0405,N
+AW-003,aws,SAE1-InstanceUsage:db.m6g.large,RDS PostgreSQL db.m6g.large,PaaS,hora,0.2500,0.2600,N
+AW-004,aws,SAE1-AW-HW-2,Amazon WorkSpaces Standard mensal,SaaS,usuario_mes,35.0000,37.0000,N
+AW-005,aws,SAE1-DataTransfer-Regional-Bytes-SameAZ,Tráfego na mesma zona de disponibilidade,IaaS,GB,0.0000,0.0000,S

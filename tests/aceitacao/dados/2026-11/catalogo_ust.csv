@@ -1,0 +1,22 @@
+servico_id,descricao,ust_base,prazo_horas,ust_maximo
+1,Configurar serviço de armazenamento de dados,4,12,
+2,Configurar Endpoint de rede,2,6,
+3,Configurar Gateway de rede,2,6,
+4,Configurar serviço de rede de entrega de conteúdo,2,6,
+5,Configurar serviço de balanceamento de carga,2,6,
+6,Configurar DNS,2,6,
+7,Configurar VPN Gateway,2,6,
+8,Configuração de API Gateway,2,6,
+9,Configurar serviço de firewall de rede,2,6,
+10,Configurar serviço de Web Application Firewall (WAF),2,6,
+11,Configurar serviço de Detecção de Ameaças Gerenciado,2,6,
+12,Configurar serviço de backup,3,12,
+13,Realizar serviço de restauração de backups,1,2,
+14,Configurar IP Público,1,12,
+15,Configurar máquina virtual,3,4,
+16,Configurar porta de conexão dedicada,2,4,
+17,Construir imagem de container,15,40,
+18,Configurar serviço de hospedagem de containers,3,12,
+19,Serviço de migração de ambientes,,80,80
+20,Definição de arquitetura de serviço,,80,80
+21,Execução de arquitetura projetada,,40,40

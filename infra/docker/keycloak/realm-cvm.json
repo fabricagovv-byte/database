@@ -1,0 +1,192 @@
+{
+  "realm": "cvm",
+  "enabled": true,
+  "displayName": "CVM — IdP simulado",
+  "internationalizationEnabled": true,
+  "supportedLocales": [
+    "pt-BR"
+  ],
+  "defaultLocale": "pt-BR",
+  "sslRequired": "external",
+  "bruteForceProtected": true,
+  "passwordPolicy": "length(12) and notUsername",
+  "otpPolicyType": "totp",
+  "roles": {
+    "realm": [
+      {
+        "name": "cvm_gestor",
+        "description": "Gestor do contrato na CVM"
+      },
+      {
+        "name": "cvm_fiscal",
+        "description": "Fiscal técnico/administrativo da CVM"
+      },
+      {
+        "name": "cvm_usuario",
+        "description": "Usuário departamental da CVM"
+      },
+      {
+        "name": "broker_operador",
+        "description": "Operador da contratada"
+      },
+      {
+        "name": "broker_admin",
+        "description": "Administrador da contratada"
+      },
+      {
+        "name": "auditor",
+        "description": "Auditor (somente leitura)"
+      }
+    ]
+  },
+  "clients": [
+    {
+      "clientId": "broker-portal",
+      "name": "Portal CVM",
+      "publicClient": true,
+      "standardFlowEnabled": true,
+      "redirectUris": [
+        "http://localhost:5173/*"
+      ],
+      "webOrigins": [
+        "http://localhost:5173"
+      ],
+      "attributes": {
+        "pkce.code.challenge.method": "S256"
+      }
+    },
+    {
+      "clientId": "broker-api",
+      "name": "API do Broker",
+      "bearerOnly": true
+    }
+  ],
+  "users": [
+    {
+      "username": "cvm.gestor",
+      "enabled": true,
+      "emailVerified": true,
+      "email": "cvm.gestor@exemplo.invalid",
+      "firstName": "Gestor",
+      "lastName": "Demo",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "trocar-no-primeiro-acesso",
+          "temporary": true
+        }
+      ],
+      "requiredActions": [
+        "CONFIGURE_TOTP"
+      ],
+      "realmRoles": [
+        "cvm_gestor"
+      ]
+    },
+    {
+      "username": "cvm.fiscal",
+      "enabled": true,
+      "emailVerified": true,
+      "email": "cvm.fiscal@exemplo.invalid",
+      "firstName": "Fiscal",
+      "lastName": "Demo",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "trocar-no-primeiro-acesso",
+          "temporary": true
+        }
+      ],
+      "requiredActions": [
+        "CONFIGURE_TOTP"
+      ],
+      "realmRoles": [
+        "cvm_fiscal"
+      ]
+    },
+    {
+      "username": "cvm.usuario",
+      "enabled": true,
+      "emailVerified": true,
+      "email": "cvm.usuario@exemplo.invalid",
+      "firstName": "Usuário",
+      "lastName": "Demo",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "trocar-no-primeiro-acesso",
+          "temporary": true
+        }
+      ],
+      "requiredActions": [
+        "CONFIGURE_TOTP"
+      ],
+      "realmRoles": [
+        "cvm_usuario"
+      ]
+    },
+    {
+      "username": "broker.operador",
+      "enabled": true,
+      "emailVerified": true,
+      "email": "broker.operador@exemplo.invalid",
+      "firstName": "Operador",
+      "lastName": "Demo",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "trocar-no-primeiro-acesso",
+          "temporary": true
+        }
+      ],
+      "requiredActions": [
+        "CONFIGURE_TOTP"
+      ],
+      "realmRoles": [
+        "broker_operador"
+      ]
+    },
+    {
+      "username": "broker.admin",
+      "enabled": true,
+      "emailVerified": true,
+      "email": "broker.admin@exemplo.invalid",
+      "firstName": "Administrador",
+      "lastName": "Demo",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "trocar-no-primeiro-acesso",
+          "temporary": true
+        }
+      ],
+      "requiredActions": [
+        "CONFIGURE_TOTP"
+      ],
+      "realmRoles": [
+        "broker_admin"
+      ]
+    },
+    {
+      "username": "auditor",
+      "enabled": true,
+      "emailVerified": true,
+      "email": "auditor@exemplo.invalid",
+      "firstName": "Auditor",
+      "lastName": "Demo",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "trocar-no-primeiro-acesso",
+          "temporary": true
+        }
+      ],
+      "requiredActions": [
+        "CONFIGURE_TOTP"
+      ],
+      "realmRoles": [
+        "auditor"
+      ]
+    }
+  ]
+}

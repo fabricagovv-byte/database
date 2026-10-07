@@ -1,0 +1,7 @@
+ocorrencia_id,tipo,data,status,descricao
+OC-1,modificacao_nao_requerida,2026-11-04,confirmada,Alteração de tamanho de VM sem OS
+OC-2,falha_antivirus,2026-11-09,confirmada,vm-portal-01 com definições defasadas
+OC-3,falha_antivirus,2026-11-09,confirmada,vm-sei-01 com antivírus inoperante
+OC-4,falha_patch,2026-11-15,confirmada,Patch de outubro não aplicado em i-0app01
+OC-5,falha_restauracao,2026-11-22,confirmada,Restauração de banco falhou
+OC-6,vazamento_dados,2026-11-23,contestacao_aceita,Suspeita descartada após análise da CVM

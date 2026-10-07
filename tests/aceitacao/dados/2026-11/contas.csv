@@ -1,0 +1,4 @@
+csp,conta_id,descricao
+azure,sub-cvm-prod-0001,Subscription produção CVM
+azure,sub-cvm-hml-0002,Subscription homologação CVM
+aws,111122223333,Conta AWS produção CVM

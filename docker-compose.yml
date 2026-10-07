@@ -1,0 +1,70 @@
+name: cloud-broker-cvm
+
+x-broker-env: &broker-env
+  BROKER_AMBIENTE: desenvolvimento
+  BROKER_LOG_LEVEL: ${BROKER_LOG_LEVEL:-INFO}
+  BROKER_DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-broker}:${POSTGRES_PASSWORD:-broker}@postgres:5432/${POSTGRES_DB:-broker}
+  BROKER_REDIS_URL: redis://redis:6379/0
+  BROKER_OIDC_ISSUER: http://keycloak:8080/realms/cvm
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-broker}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-broker}
+      POSTGRES_DB: ${POSTGRES_DB:-broker}
+    volumes: [pgdata:/var/lib/postgresql/data]
+    ports: ["127.0.0.1:5432:5432"]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      retries: 20
+
+  redis:
+    image: redis:7-alpine
+    ports: ["127.0.0.1:6379:6379"]
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      retries: 20
+
+  keycloak:
+    image: keycloak/keycloak:26.0
+    command: ["start-dev", "--import-realm"]
+    environment:
+      KC_BOOTSTRAP_ADMIN_USERNAME: admin
+      KC_BOOTSTRAP_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD:-admin}
+      KC_HEALTH_ENABLED: "true"
+    volumes: ["./infra/docker/keycloak/realm-cvm.json:/opt/keycloak/data/import/realm-cvm.json:ro"]
+    ports: ["127.0.0.1:8080:8080"]
+
+  api:
+    build: { context: ., dockerfile: infra/docker/api.Dockerfile }
+    environment: *broker-env
+    command: ["sh", "-c", "alembic upgrade head && uvicorn broker.api.asgi:app --host 0.0.0.0 --port 8000 --proxy-headers"]
+    ports: ["127.0.0.1:8000:8000"]
+    depends_on:
+      postgres: { condition: service_healthy }
+      redis: { condition: service_healthy }
+
+  worker:
+    build: { context: ., dockerfile: infra/docker/api.Dockerfile }
+    environment: *broker-env
+    command: ["celery", "-A", "broker.workers.celery_app", "worker", "--loglevel=INFO"]
+    healthcheck:
+      test: ["CMD-SHELL", "celery -A broker.workers.celery_app inspect ping -t 5"]
+      interval: 30s
+      retries: 5
+    depends_on:
+      redis: { condition: service_healthy }
+
+  frontend:
+    build: { context: ., dockerfile: infra/docker/frontend.Dockerfile }
+    environment:
+      VITE_API_PROXY: http://api:8000
+    ports: ["127.0.0.1:5173:5173"]
+    depends_on: [api]
+
+volumes:
+  pgdata:

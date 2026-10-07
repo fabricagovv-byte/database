@@ -1,0 +1,12 @@
+data,subscription_id,resource_id,meter_name,quantidade,unidade,custo_usd,tag_projeto
+2026-11-01,sub-cvm-prod-0001,vm-sei-01,Virtual Machines Dsv5 Series - D4s v5 - Brazil South,360,hora,86.40,sei
+2026-11-16,sub-cvm-prod-0001,vm-sei-01,Virtual Machines Dsv5 Series - D4s v5 - Brazil South,360,hora,86.40,sei
+2026-11-01,sub-cvm-prod-0001,vm-portal-01,Virtual Machines Dsv5 Series - D4s v5 - Brazil South,500,hora,120.00,portal
+2026-11-01,sub-cvm-prod-0001,disk-sei-01,Premium SSD Managed Disks - P30 LRS Disk - Brazil South,1,disco_mes,135.17,sei
+2026-11-01,sub-cvm-prod-0001,disk-portal-01,Premium SSD Managed Disks - P30 LRS Disk - Brazil South,1,disco_mes,135.17,portal
+2026-11-01,sub-cvm-prod-0001,vm-portal-01,Bandwidth - Standard Data Transfer Out - Zone 3,850,GB,73.95,portal
+2026-11-01,sub-cvm-prod-0001,vm-portal-01,Bandwidth - Standard Data Transfer In,4000,GB,0.00,portal
+2026-11-01,sub-cvm-prod-0001,sql-sei-01,SQL Database - General Purpose Gen5 4 vCore - Brazil South,720,hora,727.20,sei
+2026-11-01,sub-cvm-hml-0002,aks-portal,Azure Kubernetes Service - Standard Uptime SLA,720,cluster_hora,72.00,
+2026-11-01,sub-cvm-prod-0001,tenant-cvm,Microsoft Entra ID P1,150,usuario_mes,900.00,corporativo
+2026-11-10,sub-cvm-hml-0002,aoai-lab-01,Azure OpenAI - GPT-4o Input Tokens,1200,1K_tokens,30.00,lab

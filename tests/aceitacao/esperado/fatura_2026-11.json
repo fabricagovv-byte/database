@@ -1,0 +1,149 @@
+{
+  "competencia": "2026-11",
+  "itens": {
+    "1": {
+      "descricao": "Serviços de nuvem pública (IaaS)",
+      "metrica": "USN",
+      "quantidade": 1233.93,
+      "valor_unitario": 8.43,
+      "valor": 10402.03
+    },
+    "2": {
+      "descricao": "Serviços de nuvem pública (PaaS)",
+      "metrica": "USN",
+      "quantidade": 967.68,
+      "valor_unitario": 8.43,
+      "valor": 8157.54
+    },
+    "3": {
+      "descricao": "Serviços de nuvem pública (SaaS)",
+      "metrica": "USN",
+      "quantidade": 1600.0,
+      "valor_unitario": 8.43,
+      "valor": 13488.0
+    },
+    "4": {
+      "descricao": "Serviço de gestão e operação de nuvem pública",
+      "metrica": "instancia_mes",
+      "quantidade": 3.8,
+      "valor_unitario": 227.83,
+      "valor": 865.75
+    },
+    "5": {
+      "descricao": "Serviços técnicos de integrador",
+      "metrica": "UST",
+      "quantidade": 48.25,
+      "valor_unitario": 380.0,
+      "valor": 18335.0
+    },
+    "6": {
+      "descricao": "Treinamento",
+      "metrica": "participante",
+      "quantidade": 8.0,
+      "valor_unitario": 19000.0,
+      "valor": 152000.0
+    }
+  },
+  "subtotal": 203248.32,
+  "descontos": {
+    "suporte_percentual": 13.0,
+    "suporte_valor": 112.55,
+    "pontos_nms": 40,
+    "glosa_pontos_percentual": 1.0,
+    "glosa_pontos_valor": 2031.36
+  },
+  "total": 201104.41,
+  "chamados": {
+    "CH-1": {
+      "atraso_inicio_h": 0,
+      "atraso_solucao_h": 1,
+      "desconto_percentual": 1.0,
+      "prazo_solucao": "2026-11-03 15:00"
+    },
+    "CH-2": {
+      "atraso_inicio_h": 2,
+      "atraso_solucao_h": 0,
+      "desconto_percentual": 0.6,
+      "prazo_solucao": "2026-11-06 08:00"
+    },
+    "CH-3": {
+      "atraso_inicio_h": 0,
+      "atraso_solucao_h": 4,
+      "desconto_percentual": 0.8,
+      "prazo_solucao": "2026-11-17 10:00"
+    },
+    "CH-4": {
+      "atraso_inicio_h": 0,
+      "atraso_solucao_h": 0,
+      "desconto_percentual": 0.0,
+      "prazo_solucao": "2026-11-25 12:00"
+    },
+    "CH-5": {
+      "atraso_inicio_h": 2,
+      "atraso_solucao_h": 13,
+      "desconto_percentual": 10.6,
+      "prazo_solucao": "2026-11-25 07:00"
+    },
+    "CH-6": {
+      "atraso_inicio_h": 0,
+      "atraso_solucao_h": 0,
+      "desconto_percentual": 0.0
+    }
+  },
+  "usn_por_projeto": {
+    "app-fiscalizacao": 606.24,
+    "arquivo": 202.5,
+    "corporativo": 1600.0,
+    "portal": 313.83,
+    "sei": 1007.04
+  },
+  "recursos_sem_tag": [
+    "aks-portal"
+  ],
+  "pendencias": [
+    {
+      "tipo": "conta_nao_vinculada",
+      "csp": "aws",
+      "conta_id": "999988887777",
+      "resource_id": "i-0outro"
+    },
+    {
+      "tipo": "sku_nao_catalogado",
+      "csp": "azure",
+      "sku_provedor": "Azure OpenAI - GPT-4o Input Tokens",
+      "resource_id": "aoai-lab-01"
+    }
+  ],
+  "saldo": {
+    "1": {
+      "contratado": 725448.0,
+      "consumido_mes": 1233.93,
+      "percentual_mes": 0.1701
+    },
+    "2": {
+      "contratado": 660600.0,
+      "consumido_mes": 967.68,
+      "percentual_mes": 0.1465
+    },
+    "3": {
+      "contratado": 847920.0,
+      "consumido_mes": 1600.0,
+      "percentual_mes": 0.1887
+    },
+    "4": {
+      "contratado": 1896.0,
+      "consumido_mes": 3.8,
+      "percentual_mes": 0.2004
+    },
+    "5": {
+      "contratado": 720.0,
+      "consumido_mes": 48.25,
+      "percentual_mes": 6.7014
+    },
+    "6": {
+      "contratado": 10.0,
+      "consumido_mes": 8.0,
+      "percentual_mes": 80.0
+    }
+  }
+}

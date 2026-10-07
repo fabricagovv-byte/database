@@ -1,0 +1,7 @@
+item,descricao,metrica,valor_unitario_brl,quantidade_contratada_total
+1,Serviços de nuvem pública (IaaS),USN,8.43,725448
+2,Serviços de nuvem pública (PaaS),USN,8.43,660600
+3,Serviços de nuvem pública (SaaS),USN,8.43,847920
+4,Serviço de gestão e operação de nuvem pública,instancia_mes,227.83,1896
+5,Serviços técnicos de integrador,UST,380.00,720
+6,Treinamento,participante,19000.00,10
