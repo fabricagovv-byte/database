@@ -1,0 +1,17 @@
+# Escritório Digital: web + worker separados, mesmo volume de dados. Coloque um proxy HTTPS na frente.
+x-env: &env
+  env_file: .env
+  volumes: ["dados:/dados"]
+services:
+  web:
+    build: .
+    <<: *env
+    ports: ["127.0.0.1:8100:8100"]
+    restart: unless-stopped
+  worker:
+    build: .
+    <<: *env
+    command: ["escritorio", "worker"]
+    restart: unless-stopped
+volumes:
+  dados:

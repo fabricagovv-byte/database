@@ -1,0 +1,5 @@
+/dados/
+/evidencias/
+.env
+*.db
+__pycache__/

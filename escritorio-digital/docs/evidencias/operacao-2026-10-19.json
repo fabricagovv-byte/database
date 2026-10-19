@@ -1,0 +1,716 @@
+[
+  {
+    "passo": "cadastro",
+    "resultado": {
+      "servicos": 4,
+      "pessoas": 4,
+      "documentos": 5
+    }
+  },
+  {
+    "passo": "busca_pncp_real",
+    "resultado": {
+      "periodo": [
+        "2026-10-16",
+        "2026-10-19"
+      ],
+      "lidos": 150,
+      "compativeis": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "objetos": [
+        [
+          1,
+          40,
+          "CONTRATAÇÃO DE SOLUÇÃO DE TECNOLOGIA DA INFORMAÇÃO E COMUNICAÇÃO UTILIZANDO LINKS DE DADOS COM CAPAC"
+        ],
+        [
+          2,
+          30,
+          "Contratação de serviços de suporte para os firewalls Fortinet Modelo 40F e aquisição de firewall com"
+        ],
+        [
+          3,
+          40,
+          "O objeto do presente instrumento é a contratação de serviços técnicos especializados na área de Tecn"
+        ],
+        [
+          4,
+          55,
+          "Serviços técnicos continuados de desenvolvimento de software,"
+        ]
+      ]
+    }
+  },
+  {
+    "passo": "editais_reais_pncp_lidos",
+    "resultado": [
+      {
+        "oportunidade": 4,
+        "objeto": "Serviços técnicos continuados de desenvolvimento de software,",
+        "link": "https://pncp.gov.br/app/editais/00394429000100/2026/2706",
+        "estado": "em_revisao",
+        "resultado": {
+          "resumo": "5 arquivo(s) lidos; parecer nao_pode_participar_sem_sanar_pendencias",
+          "documentos": [
+            {
+              "id": 6,
+              "tipo": "edital",
+              "paginas": 5,
+              "leitura": "completa"
+            },
+            {
+              "id": 7,
+              "tipo": "edital",
+              "paginas": 26,
+              "leitura": "completa"
+            },
+            {
+              "id": 8,
+              "tipo": "edital",
+              "paginas": 26,
+              "leitura": "completa"
+            },
+            {
+              "id": 9,
+              "tipo": "contrato",
+              "paginas": 18,
+              "leitura": "completa"
+            },
+            {
+              "id": 10,
+              "tipo": "contrato",
+              "paginas": 11,
+              "leitura": "completa"
+            }
+          ],
+          "parecer": {
+            "contagem": {
+              "atende_com_condicoes": 8,
+              "atende": 4,
+              "nao_atende": 4,
+              "informacao_insuficiente": 2
+            },
+            "parecer_habilitacao": "nao_pode_participar_sem_sanar_pendencias",
+            "leitura": "completa (texto extraído de todas as páginas)"
+          },
+          "evidencias": [
+            "documento:6",
+            "documento:7",
+            "documento:8",
+            "documento:9",
+            "documento:10"
+          ]
+        },
+        "erro": null
+      },
+      {
+        "oportunidade": 1,
+        "objeto": "CONTRATAÇÃO DE SOLUÇÃO DE TECNOLOGIA DA INFORMAÇÃO E COMUNICAÇÃO UTILIZANDO LINKS DE DADOS COM CAPACIDADE DE PROVER COMU",
+        "link": "https://pncp.gov.br/app/editais/33892175000100/2026/61",
+        "estado": "em_revisao",
+        "resultado": {
+          "resumo": "1 arquivo(s) lidos; parecer nao_pode_participar_sem_sanar_pendencias",
+          "documentos": [
+            {
+              "id": 11,
+              "tipo": "edital",
+              "paginas": 158,
+              "leitura": "incompleta"
+            }
+          ],
+          "parecer": {
+            "contagem": {
+              "atende_com_condicoes": 8,
+              "nao_atende": 4,
+              "atende": 4,
+              "informacao_insuficiente": 2
+            },
+            "parecer_habilitacao": "nao_pode_participar_sem_sanar_pendencias",
+            "leitura": "INCOMPLETA — há páginas/arquivos não lidos; análise não cobre todo o edital"
+          },
+          "evidencias": [
+            "documento:11"
+          ]
+        },
+        "erro": null
+      },
+      {
+        "oportunidade": 3,
+        "objeto": "O objeto do presente instrumento é a contratação de serviços técnicos especializados na área de Tecnologia da Informação",
+        "link": "https://pncp.gov.br/app/editais/00394494011928/2026/171",
+        "estado": "em_revisao",
+        "resultado": {
+          "resumo": "4 arquivo(s) lidos; parecer nao_pode_participar_sem_sanar_pendencias",
+          "documentos": [
+            {
+              "id": 12,
+              "tipo": "edital",
+              "paginas": 12,
+              "leitura": "completa"
+            },
+            {
+              "id": 13,
+              "tipo": "contrato",
+              "paginas": 29,
+              "leitura": "completa"
+            },
+            {
+              "id": 14,
+              "tipo": "contrato",
+              "paginas": 23,
+              "leitura": "completa"
+            },
+            {
+              "id": 15,
+              "tipo": "edital",
+              "paginas": 20,
+              "leitura": "completa"
+            }
+          ],
+          "parecer": {
+            "contagem": {
+              "atende_com_condicoes": 7,
+              "nao_atende": 3,
+              "atende": 3,
+              "informacao_insuficiente": 2
+            },
+            "parecer_habilitacao": "nao_pode_participar_sem_sanar_pendencias",
+            "leitura": "completa (texto extraído de todas as páginas)"
+          },
+          "evidencias": [
+            "documento:12",
+            "documento:13",
+            "documento:14",
+            "documento:15"
+          ]
+        },
+        "erro": null
+      }
+    ]
+  },
+  {
+    "passo": "analise_edital",
+    "resultado": {
+      "upload": {
+        "id": 16,
+        "tipo": "edital",
+        "confianca": "alta",
+        "paginas": 4,
+        "leitura": "incompleta",
+        "alertas": [
+          "Páginas sem texto extraível (provável digitalização): [4]. OCR não instalado neste servidor — leitura INCOMPLETA."
+        ],
+        "mime": "application/pdf"
+      },
+      "resumo": {
+        "contagem": {
+          "atende_com_condicoes": 10,
+          "atende": 2,
+          "nao_atende": 4,
+          "informacao_insuficiente": 2
+        },
+        "parecer_habilitacao": "nao_pode_participar_sem_sanar_pendencias",
+        "leitura": "INCOMPLETA — há páginas/arquivos não lidos; análise não cobre todo o edital"
+      },
+      "pendencias": [
+        [
+          "Regra de medição",
+          "atende_com_condicoes",
+          "Risco contratual identificado: revisão jurídica (profissional habilitado)"
+        ],
+        [
+          "Certificado de regularidade do FGTS",
+          "nao_atende",
+          "Vencido em 2026-10-31 (sessão/referência 2026-12-20). Renovar."
+        ],
+        [
+          "Certidão negativa de falência",
+          "nao_atende",
+          "Vencido em 2026-12-18 (sessão/referência 2026-12-20). Renovar."
+        ],
+        [
+          "Ato constitutivo / contrato social",
+          "atende_com_condicoes",
+          "Validade não informada — confirmar"
+        ],
+        [
+          "Balanço patrimonial do último exercício",
+          "nao_atende",
+          "Cadastrar documento: Balanço patrimonial do último exercício"
+        ],
+        [
+          "Índices de liquidez (LG, LC, SG)",
+          "informacao_insuficiente",
+          "Exigência: ver trecho. Informar o valor do último balanço para comparação determinística."
+        ],
+        [
+          "Patrimônio líquido mínimo",
+          "informacao_insuficiente",
+          "Exigência: 10%. Informar o valor do último balanço para comparação determinística."
+        ],
+        [
+          "Atestado(s) de capacidade técnica",
+          "nao_atende",
+          "Nenhum atestado de capacidade técnica cadastrado"
+        ]
+      ],
+      "squad": "software"
+    }
+  },
+  {
+    "passo": "viabilidade",
+    "resultado": {
+      "versao": 1,
+      "custo_total": "161280.00",
+      "preco_sugerido": "229514.73",
+      "margem_pct": "18.00",
+      "tributos_pct": "11.73",
+      "tributos_provisorio": true,
+      "capital_giro_necessario": "13440.00",
+      "recomendacao": "nao_recomendado_ate_sanar_habilitacao",
+      "alertas": [
+        "Regras sem validação contábil: ISS (exemplo — confirmar município), Tributos federais (exemplo)"
+      ]
+    }
+  },
+  {
+    "passo": "aprovacao_pendente_para_arthur",
+    "resultado": {
+      "aprovacao_id": 1,
+      "hash": "fb7c15168302d694a7e312d08b341fa4f7318d9b3af4bef454d2689e0a639965"
+    }
+  },
+  {
+    "passo": "resultado",
+    "resultado": {
+      "situacao": "vencida_aguardando_contrato",
+      "solicitar": [
+        "contrato assinado (documento)",
+        "número do contrato",
+        "ordem de serviço / autorização de início",
+        "escopo final",
+        "valores",
+        "prazos",
+        "regras de medição",
+        "critérios de aceite",
+        "condições de faturamento"
+      ]
+    }
+  },
+  {
+    "passo": "contrato_e_squad",
+    "resultado": {
+      "contrato": {
+        "contrato_id": 1,
+        "situacao": "assinado",
+        "divergencias": []
+      },
+      "projeto": 1,
+      "squad": 5,
+      "equipe": [
+        "gerente-de-projeto",
+        "analista-de-requisitos",
+        "arquiteto-de-software",
+        "desenvolvedor-full-stack",
+        "engenheiro-de-testes",
+        "revisor-de-codigo",
+        "engenheiro-de-seguranca-de-aplicacoes",
+        "engenheiro-devops",
+        "analista-de-suporte-n1",
+        "analista-de-medicao",
+        "gestor-de-faturamento",
+        "assistente-juridico-contratual",
+        "auditor-de-execucao"
+      ]
+    }
+  },
+  {
+    "passo": "chamado",
+    "resultado": {
+      "chamado_id": 1,
+      "contrato_id": 1,
+      "severidade": "critica",
+      "no_escopo": true,
+      "faltando": [],
+      "tarefas": [
+        32,
+        33,
+        34
+      ]
+    }
+  },
+  {
+    "passo": "reproducao_pelo_worker",
+    "resultado": {
+      "estado": "em_revisao",
+      "resultado": "{\"resumo\": \"testes falharam (esperado: falha)\", \"execucao_id\": 1, \"codigo_saida\": 1, \"confirmou_expectativa\": true, \"evidencias\": [\"execucao_ferramenta:1\"]}",
+      "erro": null
+    }
+  },
+  {
+    "passo": "correcao_registrada",
+    "resultado": {
+      "execucao_id": 2,
+      "diff_stat": " app.py | 2 +-\n 1 file changed, 1 insertion(+), 1 deletion(-)\n"
+    }
+  },
+  {
+    "passo": "validacao_pelo_worker",
+    "resultado": {
+      "estado": "em_revisao",
+      "resultado": "{\"resumo\": \"testes passaram (esperado: sucesso)\", \"execucao_id\": 3, \"codigo_saida\": 0, \"confirmou_expectativa\": true, \"evidencias\": [\"execucao_ferramenta:3\"]}"
+    }
+  },
+  {
+    "passo": "medicao_e_nota",
+    "resultado": {
+      "medicao": {
+        "medicao_id": 1,
+        "quantidade": "40",
+        "valor": "3200.00",
+        "itens": [
+          {
+            "entrega": 1,
+            "descricao": "Correção do chamado #1",
+            "quantidade": "40",
+            "valor": "3200.00"
+          }
+        ],
+        "alertas": []
+      },
+      "aceite": {
+        "situacao": "aceita",
+        "valor_faturavel": "3200.00"
+      },
+      "previa": {
+        "tomador": "Prefeitura Municipal de Exemplo (DEMONSTRAÇÃO)",
+        "contrato": "101/2026-DEMO",
+        "servico": "Manutenção de sistema web de gestão tributária",
+        "valor": "3200.00",
+        "tributos": [
+          {
+            "nome": "ISS (exemplo — confirmar município)",
+            "aliquota_pct": "5",
+            "retido": true,
+            "fonte": "PREMISSA DE DEMONSTRAÇÃO — validar com contador",
+            "validado_contador": false
+          },
+          {
+            "nome": "Tributos federais (exemplo)",
+            "aliquota_pct": "6.73",
+            "retido": false,
+            "fonte": "PREMISSA DE DEMONSTRAÇÃO — validar com contador",
+            "validado_contador": false
+          }
+        ],
+        "retencoes_valor": "160.00",
+        "liquido_esperado": "3040.00",
+        "provisorio": true,
+        "alertas": [
+          "Regras sem validação contábil: ISS (exemplo — confirmar município), Tributos federais (exemplo)"
+        ]
+      },
+      "emissao": {
+        "situacao": "emitida_simulacao",
+        "retorno": {
+          "status": "autorizada",
+          "numero": "SIMULADO-000001",
+          "protocolo": "1fc346aaa28d"
+        }
+      }
+    }
+  },
+  {
+    "passo": "financeiro",
+    "resultado": {
+      "a_pagar": "0.00",
+      "a_receber": "3200.00",
+      "receita_contratada": "229514.73",
+      "receita_faturada": "3200.00",
+      "receita_recebida": "0.00",
+      "reserva_fornecedores": "0.00",
+      "reserva_tributos": "0.00"
+    }
+  },
+  {
+    "passo": "pergunta: O que vence esta semana?",
+    "resultado": {
+      "resposta": "Nada vence nos próximos 7 dias nos lançamentos cadastrados."
+    }
+  },
+  {
+    "passo": "pergunta: Quanto tenho para receber?",
+    "resultado": {
+      "resposta": "A receber: R$ 3200.00 em 1 lançamento(s); atrasados: 0. Contratada R$ 229514.73, faturada R$ 3200.00, recebida R$ 0.00."
+    }
+  },
+  {
+    "passo": "pergunta: O que preciso fazer para faturar?",
+    "resultado": {
+      "resposta": "Nada pendente para faturar."
+    }
+  },
+  {
+    "passo": "chat_auditor",
+    "resultado": [
+      {
+        "id": 2,
+        "agente": "auditor-de-execucao",
+        "texto": "Tarefa #34 'Validar correção do chamado #1 (testes)' está 'concluida'. Evidências: execução #3 `/home/user/database/.venv/bin/python -m pytest -q -p no:cacheprovider` código 0 sha256 bea5a77cc685… em 2026-10-19T03:20:55+00:00 Revisor: usuario:1."
+      }
+    ]
+  },
+  {
+    "passo": "relatorio_diario",
+    "resultado": {
+      "id": 1,
+      "gerado_em": "2026-10-19T03:20:56+00:00",
+      "janela_desde": "2026-10-18T03:20:56+00:00",
+      "oportunidades_novas": 5,
+      "editais_analisados": 4,
+      "recomendacoes": [
+        {
+          "id": 5,
+          "objeto": "Manutenção evolutiva e corretiva de sistema web de gestão tributária por UST",
+          "recomendacao": "nao_recomendado_ate_sanar_habilitacao"
+        }
+      ],
+      "pendencias_documentais": [
+        {
+          "id": 4,
+          "titulo": "Sanar pendência: Balanço patrimonial do último exercício — Cadastrar documento: Balanço patrimonial do último exercício"
+        },
+        {
+          "id": 5,
+          "titulo": "Sanar pendência: Índices de liquidez (LG, LC, SG) — Exigência: ver trecho. Informar o valor do último balanço para comparação determinística."
+        },
+        {
+          "id": 6,
+          "titulo": "Sanar pendência: Patrimônio líquido mínimo — Exigência: 5%. Informar o valor do último balanço para comparação determinística."
+        },
+        {
+          "id": 7,
+          "titulo": "Sanar pendência: Responsável técnico indicado — Nenhum profissional com registro cadastrado"
+        },
+        {
+          "id": 8,
+          "titulo": "Sanar pendência: Atestado(s) de capacidade técnica — Nenhum atestado de capacidade técnica cadastrado"
+        },
+        {
+          "id": 9,
+          "titulo": "Sanar pendência: Certidão de regularidade municipal — Cadastrar documento: Certidão de regularidade municipal"
+        },
+        {
+          "id": 10,
+          "titulo": "Sanar pendência: Registro no conselho profissional — Nenhum profissional com registro cadastrado"
+        },
+        {
+          "id": 11,
+          "titulo": "Sanar pendência: Responsável técnico indicado — Nenhum profissional com registro cadastrado"
+        },
+        {
+          "id": 12,
+          "titulo": "Sanar pendência: Balanço patrimonial do último exercício — Cadastrar documento: Balanço patrimonial do último exercício"
+        },
+        {
+          "id": 13,
+          "titulo": "Sanar pendência: Índices de liquidez (LG, LC, SG) — Exigência: ver trecho. Informar o valor do último balanço para comparação determinística."
+        },
+        {
+          "id": 14,
+          "titulo": "Sanar pendência: Patrimônio líquido mínimo — Exigência: 10%. Informar o valor do último balanço para comparação determinística."
+        },
+        {
+          "id": 15,
+          "titulo": "Sanar pendência: Atestado(s) de capacidade técnica — Nenhum atestado de capacidade técnica cadastrado"
+        },
+        {
+          "id": 16,
+          "titulo": "Sanar pendência: Responsável técnico indicado — Nenhum profissional com registro cadastrado"
+        },
+        {
+          "id": 17,
+          "titulo": "Sanar pendência: Balanço patrimonial do último exercício — Cadastrar documento: Balanço patrimonial do último exercício"
+        },
+        {
+          "id": 18,
+          "titulo": "Sanar pendência: Índices de liquidez (LG, LC, SG) — Exigência: ver trecho. Informar o valor do último balanço para comparação determinística."
+        },
+        {
+          "id": 19,
+          "titulo": "Sanar pendência: Patrimônio líquido mínimo — Exigência: 10%. Informar o valor do último balanço para comparação determinística."
+        },
+        {
+          "id": 20,
+          "titulo": "Sanar pendência: Atestado(s) de capacidade técnica — Nenhum atestado de capacidade técnica cadastrado"
+        },
+        {
+          "id": 21,
+          "titulo": "Sanar pendência: Certificado de regularidade do FGTS — Vencido em 2026-10-31 (sessão/referência 2026-12-20). Renovar."
+        },
+        {
+          "id": 22,
+          "titulo": "Sanar pendência: Certidão negativa de falência — Vencido em 2026-12-18 (sessão/referência 2026-12-20). Renovar."
+        },
+        {
+          "id": 23,
+          "titulo": "Sanar pendência: Balanço patrimonial do último exercício — Cadastrar documento: Balanço patrimonial do último exercício"
+        },
+        {
+          "id": 24,
+          "titulo": "Sanar pendência: Índices de liquidez (LG, LC, SG) — Exigência: ver trecho. Informar o valor do último balanço para comparação determinística."
+        },
+        {
+          "id": 25,
+          "titulo": "Sanar pendência: Patrimônio líquido mínimo — Exigência: 10%. Informar o valor do último balanço para comparação determinística."
+        },
+        {
+          "id": 26,
+          "titulo": "Sanar pendência: Atestado(s) de capacidade técnica — Nenhum atestado de capacidade técnica cadastrado"
+        }
+      ],
+      "prazos_proximos": [],
+      "contratos_em_execucao": [
+        {
+          "id": 1,
+          "numero": "101/2026-DEMO",
+          "objeto": "Manutenção de sistema web de gestão tributária"
+        }
+      ],
+      "entregas_aceitas_24h": 1,
+      "chamados_abertos": [
+        {
+          "id": 1,
+          "descricao": "O cliente não consegue fazer login no SIGTRIB desde 8h, usuários do setor fiscal",
+          "severidade": "critica",
+          "situacao": "aberto"
+        }
+      ],
+      "execucoes_de_teste_24h": {
+        "total": 3,
+        "sucesso": 2,
+        "falha": 1
+      },
+      "financeiro": {
+        "a_pagar": "0.00",
+        "a_receber": "3200.00",
+        "receita_contratada": "229514.73",
+        "receita_faturada": "3200.00",
+        "receita_recebida": "0.00",
+        "reserva_fornecedores": "0.00",
+        "reserva_tributos": "0.00"
+      },
+      "notas_pendentes": 0,
+      "custo_ia": 0.0,
+      "bloqueios": [],
+      "decisoes_necessarias": [],
+      "integridade_auditoria": {
+        "integra": true,
+        "verificados": 151,
+        "ultimo_hash": "4310ea7d23bf601193f58fab52a16cf8746e929e8002f5a5500faad96cd015a6"
+      },
+      "proximo_dia": [
+        {
+          "id": 4,
+          "titulo": "Sanar pendência: Balanço patrimonial do último exercício — Cadastrar documento: Balanço patrimonial do último exercício",
+          "executor_id": "arthur"
+        },
+        {
+          "id": 5,
+          "titulo": "Sanar pendência: Índices de liquidez (LG, LC, SG) — Exigência: ver trecho. Informar o valor do último balanço para comparação determinística.",
+          "executor_id": "arthur"
+        },
+        {
+          "id": 6,
+          "titulo": "Sanar pendência: Patrimônio líquido mínimo — Exigência: 5%. Informar o valor do último balanço para comparação determinística.",
+          "executor_id": "arthur"
+        },
+        {
+          "id": 7,
+          "titulo": "Sanar pendência: Responsável técnico indicado — Nenhum profissional com registro cadastrado",
+          "executor_id": "arthur"
+        },
+        {
+          "id": 8,
+          "titulo": "Sanar pendência: Atestado(s) de capacidade técnica — Nenhum atestado de capacidade técnica cadastrado",
+          "executor_id": "arthur"
+        },
+        {
+          "id": 9,
+          "titulo": "Sanar pendência: Certidão de regularidade municipal — Cadastrar documento: Certidão de regularidade municipal",
+          "executor_id": "arthur"
+        },
+        {
+          "id": 10,
+          "titulo": "Sanar pendência: Registro no conselho profissional — Nenhum profissional com registro cadastrado",
+          "executor_id": "arthur"
+        },
+        {
+          "id": 11,
+          "titulo": "Sanar pendência: Responsável técnico indicado — Nenhum profissional com registro cadastrado",
+          "executor_id": "arthur"
+        },
+        {
+          "id": 12,
+          "titulo": "Sanar pendência: Balanço patrimonial do último exercício — Cadastrar documento: Balanço patrimonial do último exercício",
+          "executor_id": "arthur"
+        },
+        {
+          "id": 13,
+          "titulo": "Sanar pendência: Índices de liquidez (LG, LC, SG) — Exigência: ver trecho. Informar o valor do último balanço para comparação determinística.",
+          "executor_id": "arthur"
+        },
+        {
+          "id": 14,
+          "titulo": "Sanar pendência: Patrimônio líquido mínimo — Exigência: 10%. Informar o valor do último balanço para comparação determinística.",
+          "executor_id": "arthur"
+        },
+        {
+          "id": 15,
+          "titulo": "Sanar pendência: Atestado(s) de capacidade técnica — Nenhum atestado de capacidade técnica cadastrado",
+          "executor_id": "arthur"
+        },
+        {
+          "id": 16,
+          "titulo": "Sanar pendência: Responsável técnico indicado — Nenhum profissional com registro cadastrado",
+          "executor_id": "arthur"
+        },
+        {
+          "id": 17,
+          "titulo": "Sanar pendência: Balanço patrimonial do último exercício — Cadastrar documento: Balanço patrimonial do último exercício",
+          "executor_id": "arthur"
+        },
+        {
+          "id": 18,
+          "titulo": "Sanar pendência: Índices de liquidez (LG, LC, SG) — Exigência: ver trecho. Informar o valor do último balanço para comparação determinística.",
+          "executor_id": "arthur"
+        }
+      ],
+      "limitacoes": [
+        "WhatsApp Cloud API: nao_configurado",
+        "Emissor fiscal: simulado",
+        "IA (modelos Claude): nao_configurado",
+        "OCR: nao_instalado"
+      ]
+    }
+  },
+  {
+    "passo": "link_ao_vivo",
+    "resultado": {
+      "expira_em": "2026-10-20T03:20:56+00:00",
+      "url_local": "http://127.0.0.1:8100/l/[token-removido]"
+    }
+  },
+  {
+    "passo": "auditoria",
+    "resultado": {
+      "integra": true,
+      "verificados": 153,
+      "ultimo_hash": "0feda97270256c85bdb6d83d81270af4197fb1008b3cd9bad5c5f29165f134c2"
+    }
+  }
+]

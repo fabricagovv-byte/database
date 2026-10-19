@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Escritório Digital</title>
+<link rel="stylesheet" href="/static/app.css">
+<script src="/static/app.js" defer></script>
+</head>
+<body>
+<a class="pular" href="#conteudo">Pular para o conteúdo</a>
+<div id="login" class="login" hidden>
+  <form id="form-login" class="cartao" aria-labelledby="t-login">
+    <h1 id="t-login">Escritório Digital</h1>
+    <label>E-mail <input name="email" type="email" autocomplete="username" required></label>
+    <label>Senha <input name="senha" type="password" autocomplete="current-password" required></label>
+    <button type="submit">Entrar</button>
+    <p class="erro" id="erro-login" role="alert"></p>
+  </form>
+</div>
+<div id="app" hidden>
+  <header class="topo">
+    <button id="menu-btn" class="menu-btn" aria-expanded="false" aria-controls="nav">☰ Menu</button>
+    <strong id="empresa-nome">Escritório Digital</strong>
+    <span id="ao-vivo" class="ao-vivo" title="Conexão com eventos em tempo real">● desconectado</span>
+    <span id="usuario-nome" class="usuario"></span>
+    <button id="sair" class="secundario">Sair</button>
+  </header>
+  <nav id="nav" class="nav" aria-label="Módulos"></nav>
+  <main id="conteudo" tabindex="-1"></main>
+</div>
+</body>
+</html>
