@@ -44,3 +44,8 @@ O kit em `tests/aceitacao/` é a referência do contrato e **não deve ser alter
     frontend/                React + TypeScript + Vite
     infra/                   Terraform e Docker
     docs/                    documentação, premissas, dúvidas e progresso
+
+## V4 fábricagov — escritório virtual
+
+`v4-escritorio/` é o prédio virtual da V4 fábricagov (estilo Habbo) com os agentes de IA de cada sala.
+Para abrir: `cd v4-escritorio && npm start` e acesse http://localhost:4321. Detalhes em `v4-escritorio/README.md`.

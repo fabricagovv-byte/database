@@ -1,0 +1,27 @@
+{
+  "_leia": "Copie este arquivo para data/config.json e ajuste. O config.json fica fora do git. Campo que faltar usa o padrão.",
+
+  "nome": "V4 fábricagov",
+  "subtitulo": "softhouse para órgãos públicos",
+  "dono": "Arthur Miguel",
+  "empresa": "V4 fábricagov Ltda, softhouse que desenvolve software para órgãos públicos e disputa licitações de tecnologia.",
+  "porta": 4321,
+
+  "reuniao": {
+    "_leia": "automatica: false = só quando você clica em Reunir agora. Cada fala é uma chamada ao Claude e consome a cota do seu plano. dias: 0 = domingo ... 6 = sábado.",
+    "automatica": false,
+    "dias": [1, 5],
+    "hora": 11,
+    "minuto": 0,
+    "duracaoMin": 30,
+    "modelo": "sonnet",
+    "foco": "quais licitações disputar esta semana e o que cada agente melhora no próprio sistema",
+    "meta": {
+      "descricao": "",
+      "alvo": 0,
+      "feito": 0,
+      "unidade": "contratos",
+      "ate": ""
+    }
+  }
+}
