@@ -13,6 +13,7 @@ Dono: **Arthur Miguel** (CEO & Fundador).
 | Sala | O que tem |
 | --- | --- |
 | **Diretoria · CEO** | sala do Arthur Miguel: mesa executiva, piso de madeira, logo da V4, placa do CEO, quadro de ideias, agenda, bandeira do Brasil, troféus e sofás |
+| **Fábrica 2 · Squads** | ala leste com 18 estações: Vue, Next.js, Android (Kotlin), iOS (Swift), Rust, Rails, Delphi e COBOL (legado), SAP/ABAP, engenharia de dados, Power BI, IA generativa, GIS, chatbots/WhatsApp, SRE, testes de carga, acessibilidade e requisitos |
 | **Fábrica de Software** | open space com 20 estações: arquitetura, tech lead, front-end, Node, Java, .NET, Python, PHP, Go, mobile, DevOps, DBA, QA, segurança/LGPD, dados & IA, UX, integrações gov, Scrum, RPA e suporte. Painéis de esteira CI/CD e stacks |
 | **Busca de Licitações** | 6 mesas: radar de editais (PNCP, Compras.gov.br, BLL, Licitações-e), análise de edital, habilitação, preços, pregão e jurídico (Lei 14.133). Painel de radar e tela da sala de disputa |
 | **Financeiro** | 4 mesas: contas, faturamento, fiscal e controladoria. Tela de fluxo de caixa e cofre |
@@ -27,6 +28,29 @@ própria mesa; no descanso vão para a sala de games.
 
 A logo fica em `img/` (versão branca, preta e só o símbolo V4).
 
+## Painel V4 (botão 🗂️ Painel, ou http://localhost:4321/painel.html)
+
+| Aba | O que faz |
+| --- | --- |
+| **Licitações** | Busca direto no PNCP (API pública oficial): editais recebendo proposta agora ou publicados nos últimos dias. Filtros por modalidade, estado, esfera, valor, município, prazo mínimo, palavras obrigatórias e excluídas. Cada edital ganha uma nota de aderência (0–100) pelo perfil da V4, que você edita. Carteira com situação (nova → em análise → vamos disputar → proposta enviada → ganhamos/perdemos), análise com itens e arquivos oficiais, checklist, parecer da IA (Helena) e botão para pedir protótipo à fábrica. Radar diário avisa as novas no celular e no WhatsApp. Exporta CSV. |
+| **Fábrica** | Você descreve o sistema; o squad certo do time pega o pedido e o Claude Code escreve o código numa pasta própria (`projetos/<nome>`), com testes, README e RELATORIO.md com as UST. O registro mostra em tempo real o que está sendo criado. Você roda os testes, liga a prévia (aparece dentro do painel e no computador do tech lead no escritório), pede ajustes e baixa o código em .zip. Vários pedidos em paralelo (1 a 4). |
+| **Comercial** | Contatos institucionais públicos: e-mail e telefone que o órgão declarou no CNPJ (Receita, via BrasilAPI), lista de prefeituras do IBGE e prefeitos eleitos dos dados abertos do TSE (você envia o CSV). Situação do relacionamento, rascunho de e-mail de apresentação com IA (o envio é seu) e exportação CSV. |
+| **WhatsApp** | Robô pela API oficial da Meta (WhatsApp Cloud API). Números autorizados consultam licitações, busca, carteira, detalhe, radar, fábrica, UST e caixa; os demais recebem resposta automática e ficam registrados para o comercial. Tem simulador para testar sem gastar. |
+| **Financeiro** | Seus lançamentos (realizado/previsto, categoria, contrato), saldo, projeção, margem, gráfico por mês, importação e exportação CSV e relatório. |
+| **UST** | Contrato com a quantidade máxima de UST (teto) e valor da UST. Demandas manuais ou vindas da fábrica. A distribuição aceita demandas até bater o teto, reparte entre os agentes respeitando a capacidade de cada um, mostra quanto falta e o que cabe, e gera relatório (.md e .csv). |
+
+O que precisa de você:
+
+- **IA (fábrica, análise de edital, rascunho de e-mail):** o [Claude Code](https://claude.com/claude-code) instalado e logado nesta máquina. Cada uso consome a cota do seu plano.
+- **WhatsApp:** um app na Meta for Developers com o WhatsApp (token, ID do número, App Secret) e um endereço HTTPS público apontando para este computador, por exemplo `cloudflared tunnel --url http://localhost:4321`. Só `/webhook/whatsapp` aceita acesso de fora, e só com a assinatura da Meta.
+- **Prefeitos:** o TSE publica nome e partido dos eleitos, não e-mail nem telefone. Os contatos são os institucionais do cadastro do CNPJ.
+
+Segurança da fábrica: os agentes que escrevem o código só têm ferramentas de ler e escrever arquivos dentro da pasta do projeto. Rodar testes e ligar o sistema são sempre um clique seu no painel.
+
+Tudo do painel fica em `data/painel/` (fora do git). O código gerado fica em `projetos/` (também fora do git).
+
+Testes do painel: `node --test tests/*.test.js` (sobe o escritório com PNCP, Receita, IBGE e Claude falsos).
+
 ## Começar
 
 Precisa do [Node.js](https://nodejs.org) 18 ou mais novo.
@@ -38,7 +62,7 @@ npm start
 ```
 
 Abra **http://localhost:4321**. O prédio já abre com a equipe completa
-(35 bonecos). O agente de exemplo (pasta `exemplo-agente`) fica no banco de
+(53 bonecos). O agente de exemplo (pasta `exemplo-agente`) fica no banco de
 agentes: contrate e clique no computador dele para ver o fluxo de ligar e
 embutir um sistema.
 
@@ -144,7 +168,10 @@ versionados.
 server.js          servidor: arquivos da tela, API, sobe/vigia sistemas, espelho
 reuniao.js         reunião dos agentes (Claude Code em cada pasta)
 avisos.js          ntfy e CallMeBot
-index.html         a tela
+index.html         a tela do prédio
+painel.html        o Painel V4 (js/painel.js, css/painel.css)
+painel/            servidor do painel: licitações (PNCP), fábrica, comercial, WhatsApp, financeiro, UST
+tests/             testes do painel
 img/               logo da V4 fábricagov
 js/                motor isométrico, salas, móveis, bonecos, painéis
 css/style.css      tema

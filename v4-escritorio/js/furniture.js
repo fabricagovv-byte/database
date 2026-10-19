@@ -75,6 +75,14 @@ const FURN = (() => {
   add({ t: 'plant', x: 24.6, y: 16.2, k: 0 });  block(24.6, 16.2, 1, 1);
   add({ t: 'plant', x: 52.2, y: 16.2, k: 1 });  block(52.2, 16.2, 1, 1);
 
+  /* ---------- FÁBRICA 2 · SQUADS: 18 estações na ala leste ---------- */
+  estacoes('fabrica2', 'S', 'Estação', [61, 65, 69],
+           [{ y: 3, face: 's' }, { y: 8, face: 'n' }, { y: 12, face: 's' }, { y: 17, face: 'n' }, { y: 21, face: 's' }, { y: 26, face: 'n' }]);
+  add({ t: 'sofa', x: 61.0, y: 31.0, w: 3.6, d: 1.4, dir: 'n', c: '#2a2445' }); block(61.0, 31.0, 3.6, 1.4);
+  add({ t: 'lowTable', x: 61.8, y: 32.5, w: 1.6, d: 0.9 });                   block(61.8, 32.5, 1.6, 0.9);
+  add({ t: 'cooler', x: 73.4, y: 31.4 });                                     block(73.4, 31.4, 1, 1);
+  [[60.2, 29.6, 0], [73.6, 29.4, 1], [69.6, 32.2, 1]].forEach(([x, y, k]) => { add({ t: 'plant', x, y, k }); block(x, y, 1, 1); });
+
   /* ---------- LICITAÇÕES: 6 mesas ---------- */
   estacoes('licitacoes', 'L', 'Mesa', [2, 6, 10], FILAS_SALA);
   add({ t: 'tvWall', x: 5.2, y: 23.15, w: 4.6, d: 0.5, kind: 'pregao' });
@@ -199,8 +207,9 @@ const FURN = (() => {
   /* ---------- LOBBY / CORREDORES ---------- */
   add({ t: 'logoWall', x: 36.5, y: 38.6, w: 9, d: 0.5 });     block(36.5, 38.6, 9, 0.5);
   add({ t: 'reception', x: 39.0, y: 41.2, w: 4, d: 1 });      block(39.0, 41.2, 4, 1);
-  add({ t: 'elevator', x: 58, y: 36.4, d: 2, txt: 'ELEVADOR 1' });
-  add({ t: 'elevator', x: 58, y: 39.6, d: 2, txt: 'ELEVADOR 2' });
+  add({ t: 'elevator', x: 74, y: 37.4, d: 2, txt: 'ELEVADOR 1' });
+  add({ t: 'elevator', x: 74, y: 40.6, d: 2, txt: 'ELEVADOR 2' });
+  [[62.0, 47.4, 0], [73.4, 47.4, 1], [68.0, 41.0, 0]].forEach(([x, y, k]) => { add({ t: 'plant', x, y, k }); block(x, y, 1, 1); });
   add({ t: 'catraca', x: 42.9, y: 44.4 });                    block(42.9, 44.4, .8, .6);
   add({ t: 'catraca', x: 47.3, y: 44.4 });                    block(47.3, 44.4, .8, .6);
   add({ t: 'sofa', x: 51.6, y: 41.0, w: 3.6, d: 1.4, dir: 'n', c: '#2a2f3a' }); block(51.6, 41.0, 3.6, 1.4);
@@ -220,7 +229,7 @@ const FURN = (() => {
   const H = WORLD.H, W = WORLD.W;
   add({ t: 'fachada', x: 38.5, y: H + 0.02, w: 13, d: 0.1 });
   add({ t: 'totemExt', x: 51.2, y: H + 0.6, w: 1.1, d: 0.5 });
-  [2, 9, 16, 23, 30, 37, 55].forEach((x, i) => add({ t: 'tree', x, y: H + 0.5, k: i % 2 }));
+  [2, 9, 16, 23, 30, 37, 55, 62, 69].forEach((x, i) => add({ t: 'tree', x, y: H + 0.5, k: i % 2 }));
   [4, 12, 20, 28, 36, 44].forEach((y, i) => add({ t: 'tree', x: W + 0.5, y, k: (i + 1) % 2 }));
   [5.5, 19.5, 33.5].forEach(x => add({ t: 'lamp', x, y: H + 1.5 }));
   [9, 25, 41].forEach(y => add({ t: 'lamp', x: W + 1.5, y }));

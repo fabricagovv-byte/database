@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Painel V4 fábricagov</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@600;700&family=Barlow+Semi+Condensed:wght@500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/painel.css">
+</head>
+<body>
+<header class="topo">
+  <a class="marca" href="/" title="Voltar ao escritório">
+    <img src="img/logo-v4-branca.png" alt="V4 fábricagov softhouse">
+  </a>
+  <nav class="abas" id="abas" aria-label="Áreas do painel">
+    <button data-aba="inicio" class="on">Início</button>
+    <button data-aba="licitacoes">Licitações</button>
+    <button data-aba="fabrica">Fábrica</button>
+    <button data-aba="comercial">Comercial</button>
+    <button data-aba="whatsapp">WhatsApp</button>
+    <button data-aba="financeiro">Financeiro</button>
+    <button data-aba="ust">UST</button>
+  </nav>
+  <a class="voltar" href="/">🏢 Escritório</a>
+</header>
+
+<main id="conteudo" tabindex="-1"></main>
+
+<div id="modal" class="modal" hidden>
+  <div class="modal-caixa" role="dialog" aria-modal="true">
+    <button class="modal-x" id="modal-x" aria-label="Fechar">✕</button>
+    <div id="modal-corpo"></div>
+  </div>
+</div>
+<div id="aviso" class="aviso" hidden></div>
+
+<script src="config.js"></script>
+<script src="js/painel.js"></script>
+</body>
+</html>

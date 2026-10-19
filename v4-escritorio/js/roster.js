@@ -120,6 +120,80 @@ const ROSTER = (() => {
        'SLA estourado vira glosa na fatura. Sustentação bem feita protege o caixa.',
        { skin: '#7a4a2c', hair: '#140f0c', style: 'cacheado', shirt: '#38bdf8' }, { inicio: 'descanso' }),
 
+    /* ---------- FÁBRICA 2 · SQUADS (ala leste) ---------- */
+    ag('vue', 'Igor', 'Front-end Vue.js & Nuxt', '🟢', 'fabrica2',
+       'Interfaces em Vue/Nuxt para portais e sistemas internos.',
+       'Muitos portais públicos novos saem em Vue. Ter os dois grandes frameworks amplia os editais que a V4 atende.',
+       { skin: '#f0c29b', hair: '#3d2a1a', style: 'curto', shirt: '#42b883' }),
+    ag('nextjs', 'Bianca', 'Full-stack Next.js', '▲', 'fabrica2',
+       'Aplicações completas em Next.js com renderização no servidor e APIs.',
+       'Entrega front e back juntos em projetos menores — o caminho mais curto do pedido ao sistema no ar.',
+       { skin: '#e0a878', hair: '#140f0c', style: 'longo', shirt: '#e9edf8' }),
+    ag('kotlin', 'Rafaela', 'Android nativo (Kotlin)', '🤖', 'fabrica2',
+       'Apps Android nativos para fiscalização em campo, câmera, GPS e modo offline.',
+       'Fiscal de obra e agente de saúde trabalham sem sinal: app nativo offline faz diferença.',
+       { skin: '#c9854f', hair: '#140f0c', style: 'rabo', shirt: '#7f52ff' }),
+    ag('swift', 'Pedro', 'iOS nativo (Swift)', '🍎', 'fabrica2',
+       'Apps iOS nativos e publicação na App Store em nome do órgão.',
+       'Edital de app costuma pedir as duas lojas. Sem iOS, a proposta fica incompleta.',
+       { skin: '#f7d7bd', hair: '#6b4423', style: 'ondulado', shirt: '#f05138' }),
+    ag('rust', 'Matheus', 'Rust & alta performance', '🦀', 'fabrica2',
+       'Serviços críticos de alta performance e segurança de memória.',
+       'Para módulos que processam muito dado ou não podem cair.',
+       { skin: '#a2643b', hair: '#241a13', style: 'moicano', shirt: '#dea584' }),
+    ag('ruby', 'Elisa', 'Ruby on Rails', '💎', 'fabrica2',
+       'Sistemas web em Rails e manutenção de plataformas já existentes.',
+       'Algumas plataformas públicas abertas rodam em Rails — sustentação é contrato recorrente.',
+       { skin: '#f0c29b', hair: '#e63946', style: 'chanel', shirt: '#cc342d' }),
+    ag('delphi', 'Sérgio', 'Delphi & sistemas legados', '🏺', 'fabrica2',
+       'Manutenção e migração de sistemas em Delphi, comuns em prefeituras e autarquias.',
+       'Muito sistema municipal ainda é Delphi. Quem migra para web ganha o contrato da modernização.',
+       { skin: '#e0a878', hair: '#8e8e93', style: 'curto', shirt: '#334155', glasses: 'retangular', beard: 'cheia' }),
+    ag('cobol', 'Walter', 'COBOL & mainframe', '🖥️', 'fabrica2',
+       'Sustentação e modernização de sistemas COBOL em mainframe.',
+       'Folha, tributos e previdência de vários entes ainda rodam em mainframe. Pouca gente faz.',
+       { skin: '#f7d7bd', hair: '#d9d9d9', style: 'raspado', shirt: '#1e3a8a', glasses: 'redondo' }),
+    ag('abap', 'Lívia', 'SAP / ABAP', '🔷', 'fabrica2',
+       'Customizações ABAP e integrações com SAP em estatais e grandes órgãos.',
+       'Estatais e tribunais usam SAP. Integração com ele aparece em edital grande.',
+       { skin: '#7a4a2c', hair: '#140f0c', style: 'coque', shirt: '#0faaff' }),
+    ag('engdados', 'Gabriel', 'Engenharia de dados (ETL, Airflow)', '🔀', 'fabrica2',
+       'Pipelines de dados, ETL, data lake e integração de bases públicas.',
+       'Dado espalhado em dez sistemas só vira indicador com pipeline bem feito.',
+       { skin: '#c9854f', hair: '#3d2a1a', style: 'fade', shirt: '#017cee' }),
+    ag('powerbi', 'Tatiane', 'Power BI & painéis gerenciais', '📊', 'fabrica2',
+       'Painéis gerenciais e de transparência em Power BI e ferramentas livres.',
+       'Prefeito quer ver indicador. Painel bonito e certo abre portas para o próximo contrato.',
+       { skin: '#f0c29b', hair: '#a8702f', style: 'longo', shirt: '#f2c811' }),
+    ag('llm', 'Nina', 'IA generativa & LLMs', '✨', 'fabrica2',
+       'Assistentes com IA, busca em documentos e automação de atendimento com LLMs.',
+       'IA no serviço público é a pauta do momento — e precisa de cuidado com LGPD.',
+       { skin: '#e0a878', hair: '#140f0c', style: 'franja', shirt: '#d97757' }),
+    ag('gis', 'Clara', 'Geoprocessamento (PostGIS, QGIS)', '🗺️', 'fabrica2',
+       'Mapas, cadastro territorial, IPTU georreferenciado e PostGIS.',
+       'Cadastro imobiliário e planejamento urbano pedem GIS. É nicho com pouca concorrência.',
+       { skin: '#f7d7bd', hair: '#5a3a22', style: 'cacheado', shirt: '#4caf50' }),
+    ag('chatbot', 'Vinícius', 'Chatbots & WhatsApp', '💬', 'fabrica2',
+       'Robôs de atendimento ao cidadão no WhatsApp e no site.',
+       'Atendimento por WhatsApp desafoga a central de qualquer prefeitura.',
+       { skin: '#a2643b', hair: '#140f0c', style: 'curto', shirt: '#25d366' }),
+    ag('sre', 'Fábio', 'SRE & observabilidade', '📈', 'fabrica2',
+       'Monitoramento, alertas, SLO e resposta a incidentes em produção.',
+       'SLA de contrato público se cumpre com observabilidade, não com sorte.',
+       { skin: '#f0c29b', hair: '#241a13', style: 'curto', shirt: '#f46800', beard: 'cavanhaque' }),
+    ag('carga', 'Renata', 'Testes de carga & performance', '🏋️', 'fabrica2',
+       'Testes de carga e estresse antes de inscrições, matrículas e consultas em massa.',
+       'Sistema que cai no dia da matrícula vira notícia. Ela evita isso.',
+       { skin: '#c9854f', hair: '#140f0c', style: 'rabo', shirt: '#0ea5e9' }),
+    ag('acessibilidade', 'Murilo', 'Acessibilidade digital (eMAG/WCAG)', '♿', 'fabrica2',
+       'Auditoria e correção de acessibilidade pelo eMAG e WCAG.',
+       'Acessibilidade é exigência legal em sistema público e item de homologação.',
+       { skin: '#f7d7bd', hair: '#6b4423', style: 'ondulado', shirt: '#2563eb', glasses: 'redondo' }),
+    ag('requisitos', 'Simone', 'Analista de requisitos & negócios', '📝', 'fabrica2',
+       'Transforma o termo de referência em histórias, regras de negócio e critérios de aceite.',
+       'Requisito bem escrito evita retrabalho e glosa na medição.',
+       { skin: '#7a4a2c', hair: '#140f0c', style: 'chanel', shirt: '#a78bfa', glasses: 'retangular' }),
+
     /* ---------- BUSCA DE LICITAÇÕES ---------- */
     ag('radar', 'Otávio', 'Radar de licitações (PNCP & portais)', '🔎', 'licitacoes',
        'Varre PNCP, Compras.gov.br, BLL, Licitações-e e portais estaduais atrás de editais de software.',
@@ -246,15 +320,23 @@ const ROSTER = (() => {
     } catch (e) { return null; }
   };
 
+  let versaoSalva = 2;
   async function load() {
     let vindoDoDisco = null;
+    versaoSalva = 2;
     try {
       const d = await (await fetch('/api/equipe')).json();
-      if (d && Array.isArray(d.team) && d.team.length) vindoDoDisco = d.team;
+      if (d && Array.isArray(d.team) && d.team.length) { vindoDoDisco = d.team; versaoSalva = d.v || 1; }
     } catch (e) { /* servidor fora: vale o que o navegador tiver */ }
+    if (!vindoDoDisco) { try { const l = JSON.parse(localStorage.getItem(KEY) || 'null'); if (l && l.team && l.team.length) versaoSalva = l.v || 1; } catch (e) {} }
 
     team = vindoDoDisco || doLocal() || defaults();
     recompor();              // equipe salva antes pode não ter os campos novos
+    // v2: a ala leste (Fábrica 2) chegou depois — quem já tinha equipe salva ganha os squads uma vez
+    if (versaoSalva < 2) {
+      for (const c of CATALOG) if (c.sala === 'fabrica2' && !team.some(a => a.key === c.key)) team.push(fromCatalog(c));
+      versaoSalva = 2; save();
+    }
     if (!vindoDoDisco) save();   // primeira vez ou migração: carimba no disco
   }
 
@@ -282,7 +364,7 @@ const ROSTER = (() => {
 
   let gravando = null;
   function save() {
-    try { localStorage.setItem(KEY, JSON.stringify({ team, v: 1 })); }
+    try { localStorage.setItem(KEY, JSON.stringify({ team, v: 2 })); }
     catch (e) { /* storage bloqueado: o disco ainda pega */ }
     // junta as chamadas seguidas num POST só — arrastar um agente dispara
     // save() várias vezes por segundo
@@ -290,7 +372,7 @@ const ROSTER = (() => {
     gravando = setTimeout(() => {
       fetch('/api/equipe', {
         method: 'PUT', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ team, v: 1 })
+        body: JSON.stringify({ team, v: 2 })
       }).catch(() => { /* offline: fica o espelho do navegador */ });
     }, 300);
   }

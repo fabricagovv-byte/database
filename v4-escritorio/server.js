@@ -516,6 +516,7 @@ const conversas = new Map();   // id -> { sessionId, historico, rodando, proc, e
    concatenados: a pergunta quebrava no primeiro espaço e qualquer & ou |
    digitado na caixa de texto viraria comando na máquina. */
 const CLAUDE_BIN = (() => {
+  if (process.env.V4_CLAUDE_BIN) return process.env.V4_CLAUDE_BIN;   // testes e instalações fora do padrão
   const tentativas = [
     path.join(process.env.USERPROFILE || process.env.HOME || '', '.local', 'bin', 'claude.exe'),
     path.join(process.env.USERPROFILE || process.env.HOME || '', '.local', 'bin', 'claude')
@@ -539,6 +540,27 @@ const AVISOS = require('./avisos').init(ROOT, {
 const REUNIAO = require('./reuniao').init({ ROOT, lerRegistro, CLAUDE_BIN, config: lerConfig,
   avisar: (t, x, p) => AVISOS.avisar(t, x, p).catch(() => {}) });
 REUNIAO.agendar(equipeDoDisco);
+
+/* ---------------- Painel V4: licitações, fábrica, comercial, WhatsApp, financeiro, UST ---------------- */
+const PAINEL = require('./painel/rotas');
+async function portaLivre(inicio, usadas = []) {
+  const reg = Object.values(lerRegistro()).map(x => x.porta);
+  for (let p = inicio; p < inicio + 400; p++) {
+    if (p === PORT || reg.includes(p) || usadas.includes(p)) continue;
+    if (!(await portaViva(p))) return p;
+  }
+  throw new Error('nenhuma porta livre a partir de ' + inicio);
+}
+function gravarEquipe(team) {
+  fs.mkdirSync(path.dirname(EQUIPE), { recursive: true });
+  if (fs.existsSync(EQUIPE)) fs.copyFileSync(EQUIPE, EQUIPE_BAK);
+  fs.writeFileSync(EQUIPE, JSON.stringify({ team, v: 1 }, null, 2));
+}
+setImmediate(() => PAINEL.init({
+  ROOT, CLAUDE_BIN, novoSistema, tirarSistema, ligar, desligar, portaLivre, estadoClaude,
+  equipe: equipeDoDisco, gravarEquipe,
+  avisar: (t, x) => AVISOS.avisar(t, x, 'normal')
+}));
 
 const PAPEL =
   'Você é o agente responsável por este sistema dentro do escritório de agentes, ' +
@@ -677,6 +699,10 @@ const servidor = http.createServer(async (req, res) => {
   const url = new URL(req.url, 'http://localhost');
   const rota = decodeURIComponent(url.pathname);
 
+  /* webhook do WhatsApp: vem da Meta, por um túnel público. Não passa pela
+     trava de host, mas só é aceito com a assinatura HMAC do App Secret. */
+  if (rota === '/webhook/whatsapp') return PAINEL.webhook(req, res, url);
+
   /* Só o próprio escritório, aberto nesta máquina, fala com ele.
      O Host barra DNS rebinding (um site cujo domínio aponta para 127.0.0.1);
      o Origin barra outro site aberto no navegador mandando POST para cá, o
@@ -700,6 +726,7 @@ const servidor = http.createServer(async (req, res) => {
   }
 
   /* ---- API ---- */
+  if (rota.startsWith('/api/painel/')) return PAINEL.rotear(req, res, rota, url);
   if (rota === '/api/avisos' && req.method === 'GET') return json(res, 200, AVISOS.publico());
   if (rota === '/api/avisos/resumo' && req.method === 'GET')
     return AVISOS.montarResumo().then(l => json(res, 200, { linhas: l }));
@@ -784,7 +811,7 @@ const servidor = http.createServer(async (req, res) => {
       try {
         fs.mkdirSync(path.dirname(EQUIPE), { recursive: true });
         if (fs.existsSync(EQUIPE)) fs.copyFileSync(EQUIPE, EQUIPE_BAK);
-        fs.writeFileSync(EQUIPE, JSON.stringify({ team: d.team, v: 1 }, null, 2));
+        fs.writeFileSync(EQUIPE, JSON.stringify({ team: d.team, v: d.v || 1 }, null, 2));
       } catch (e) { return json(res, 500, { ok: false, motivo: e.message }); }
       json(res, 200, { ok: true, n: d.team.length });
     });
@@ -837,7 +864,7 @@ const servidor = http.createServer(async (req, res) => {
 
   /* ---- estáticos ---- */
   const rel = rota === '/' ? '/index.html' : rota;
-  if (!/^\/(index\.html|favicon\.svg|css\/|js\/|img\/)/.test(rel)) {
+  if (!/^\/(index\.html|painel\.html|favicon\.svg|css\/|js\/|img\/)/.test(rel)) {
     res.writeHead(404, { 'Content-Type': 'text/plain' }).end('404'); return;
   }
   const arquivo = path.join(ROOT, path.normalize(rel).replace(/^(\.\.[/\\])+/, ''));

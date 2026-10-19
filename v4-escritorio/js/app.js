@@ -888,6 +888,7 @@ function openNew() {
         <button data-s="licitacoes">🔎 Licitações</button>
         <button data-s="financeiro">💰 Financeiro</button>
         <button data-s="comercial">🤝 Comercial</button>
+        <button data-s="fabrica2">🧩 Squads</button>
       </div></div>
     <div class="frow"><label>O que ele faz</label><textarea id="n-brief" rows="2" placeholder="Uma frase sobre a função dele."></textarea></div>
     <div class="frow"><label>Sistema do agente</label>

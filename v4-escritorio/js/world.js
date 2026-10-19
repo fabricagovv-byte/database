@@ -12,7 +12,7 @@
    =========================================================== */
 const WORLD = (() => {
 
-  const W = 60, H = 50;
+  const W = 76, H = 50;
 
   const VOID = 0, FLOOR = 1, WALL = 2, DOOR = 3;
 
@@ -71,6 +71,14 @@ const WORLD = (() => {
       floorA: '#1f1219', floorB: '#26161e',
       desc: 'Pré-vendas, relacionamento com órgãos públicos, atas de registro de preço e gestão de contratos.'
     },
+    fabrica2: {
+      id: 'fabrica2', name: 'FÁBRICA 2 · SQUADS', short: 'Squads',
+      bx: 59, by: 0, bw: 17, bh: 35,
+      x1: 60, y1: 1, x2: 74, y2: 33,
+      accent: '#a78bfa',
+      floorA: '#15132a', floorB: '#1a1733',
+      desc: 'Ala leste da fábrica: 18 estações de squads especialistas — mobile nativo, legado (Delphi, COBOL), SAP, dados, IA generativa, GIS, chatbots, SRE e acessibilidade.'
+    },
     reuniao: {
       id: 'reuniao', name: 'SALA DE REUNIÃO', short: 'Reunião',
       bx: 43, by: 22, bw: 17, bh: 13,
@@ -110,6 +118,9 @@ const WORLD = (() => {
     { x: 50, y: 34, o: 'h' }, { x: 51, y: 34, o: 'h' },
     { x: 10, y: 38, o: 'h' }, { x: 11, y: 38, o: 'h' },   // games
     { x: 24, y: 38, o: 'h' }, { x: 25, y: 38, o: 'h' },
+    { x: 59, y: 8,  o: 'v' }, { x: 59, y: 9,  o: 'v' },   // dev -> fábrica 2
+    { x: 59, y: 20, o: 'v' }, { x: 59, y: 21, o: 'v' },   // corredor -> fábrica 2
+    { x: 66, y: 34, o: 'h' }, { x: 67, y: 34, o: 'h' },   // fábrica 2 -> lobby
     { x: 44, y: 49, o: 'h' }, { x: 45, y: 49, o: 'h' }, { x: 46, y: 49, o: 'h' }  // entrada do prédio
   ];
 
@@ -183,6 +194,8 @@ const WORLD = (() => {
     { o: 'n', x: 28, y: 0,  len: 10, kind: 'logo'     },  // dev: logo grande
     { o: 'n', x: 39, y: 0,  len: 10, kind: 'pipeline' },  // dev: CI/CD
     { o: 'n', x: 50, y: 0,  len: 9,  kind: 'stack'    },  // dev: tecnologias
+    { o: 'n', x: 60, y: 0,  len: 6,  kind: 'logo'     },  // fábrica 2: logo
+    { o: 'n', x: 66, y: 0,  len: 9,  kind: 'stack'    },  // fábrica 2: stacks
     { o: 'w', x: 0,  y: 23, len: 10, kind: 'radar'    },  // licitações: radar de editais
     { o: 'w', x: 0,  y: 40, len: 8,  kind: 'games'    }   // games: letreiro
   ];
