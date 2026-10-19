@@ -70,7 +70,7 @@ async function concluir(rotaTarefa) {
 
 test.before(async () => {
   TMP = fs.mkdtempSync(path.join(os.tmpdir(), 'v4-painel-'));
-  for (const f of ['server.js', 'reuniao.js', 'avisos.js', 'painel', 'exemplo-agente', 'data/sistemas.exemplo.json', 'data/config.exemplo.json'])
+  for (const f of ['server.js', 'reuniao.js', 'avisos.js', 'painel', 'painel.html', 'exemplo-agente', 'data/sistemas.exemplo.json', 'data/config.exemplo.json'])
     fs.cpSync(path.join(RAIZ, f), path.join(TMP, f), { recursive: true });
   fs.writeFileSync(path.join(TMP, 'data', 'equipe.json'), JSON.stringify({ team: [
     { id: 'boss-1', name: 'Arthur Miguel', boss: true, dept: 'diretoria' },
@@ -186,4 +186,33 @@ test('UST: teto, distribuição pelo time e relatório; financeiro com saldo', a
 
 test('API do painel recusa host de fora', async () => {
   assert.strictEqual((await pedir('GET', '/api/painel/resumo', null, { Host: 'evil.com' })).code, 403);
+});
+
+test('cada sala tem seu sistema no registro do escritório', async () => {
+  const sis = (await pedir('GET', '/api/sistemas')).json;
+  for (const id of ['v4-diretoria', 'v4-licitacoes', 'v4-fabrica', 'v4-comercial', 'v4-whatsapp', 'v4-financeiro', 'v4-ust']) {
+    const s = sis.find(x => x.id === id);
+    assert.ok(s, id + ' não está no registro');
+    assert.strictEqual(s.estado, 'web');
+    assert.match(s.url, /^painel\.html#/);
+  }
+  const pag = await pedir('GET', '/painel.html');
+  assert.strictEqual(pag.code, 200);
+  assert.match(pag.buf.toString(), /painel-demo\.js/);
+});
+
+test('modo demonstração responde as telas sem servidor', async () => {
+  const vm = require('vm');
+  const ctx = { window: {}, localStorage: { getItem: () => null, setItem: () => {} }, URL, Date, Math, JSON, Object, Number, String, Array, Map, Promise, Error, RegExp };
+  vm.runInNewContext(fs.readFileSync(path.join(RAIZ, 'js', 'painel-demo.js'), 'utf8'), ctx);
+  const D = ctx.window.PAINEL_DEMO;
+  const r = await D.chamar('GET', '/resumo');
+  assert.ok(r.licitacoes.carteira >= 1 && r.fabrica.total >= 1);
+  const ust = (await D.chamar('GET', '/ust')).contratos[0];
+  const dist = await D.chamar('GET', '/ust/distribuir?contrato=' + ust.id);
+  assert.ok(dist.usado <= dist.teto);
+  assert.match((await D.chamar('POST', '/whatsapp/simular', { texto: 'caixa' })).resposta, /Saldo/);
+  const p = await D.chamar('POST', '/fabrica', { nome: 'Teste', pedido: 'sistema de agendamento de consultas' });
+  assert.strictEqual(p.status, 'gerando');
+  await assert.rejects(D.chamar('POST', '/comercial/cnpj', { cnpj: '1' }), /npm start/);
 });

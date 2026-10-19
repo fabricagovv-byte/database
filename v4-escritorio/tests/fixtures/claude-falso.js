@@ -21,7 +21,7 @@ process.stdin.on('end', () => {
     fs.writeFileSync('RELATORIO.md', '# Relatório\n\n| Atividade | UST |\n| --- | ---: |\n| Tudo | 42 |\n');
     fs.writeFileSync('README.md', '# Protocolo Digital\n');
     result = JSON.stringify({ resumo: 'Sistema de protocolo entregue.', funcionalidades: ['cadastro'], ust: 42, pendencias: [] });
-  } else if (/Helena/.test(entrada)) {
+  } else if (/Helena/.test(entrada) && modo === 'dontAsk' && args.includes('--disallowedTools')) {
     result = '```json\n' + JSON.stringify({ parecer: 'disputar', resumo: 'Objeto aderente.', exigencias: ['atestado'], riscos: [], prazos: [], estimativaUST: 300, equipeSugerida: [], perguntasEsclarecimento: [] }) + '\n```';
   } else {
     result = 'Assunto: Apresentação V4\n\nPrezados, ...';

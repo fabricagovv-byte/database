@@ -235,7 +235,7 @@ ${JSON.stringify({ orgao: l.orgao, uf: l.uf, municipio: l.municipio, modalidade:
 Responda SOMENTE com um JSON neste formato:
 {"parecer":"disputar|avaliar|descartar","resumo":"3 a 5 frases","exigencias":["..."],"riscos":["..."],"prazos":["..."],"estimativaUST":número ou null,"equipeSugerida":["função: motivo"],"perguntasEsclarecimento":["..."]}
 Não invente dados: se algo não estiver nos documentos, diga que não encontrou.`;
-    const r = await IA.rodar({ prompt, modo: 'plan', ferramentas: ['WebFetch'], limiteMs: 6 * 60000,
+    const r = await IA.consultar(prompt, { web: true, limiteMs: 6 * 60000,
       aoEvento: ev => { const d = IA.descreverEvento(ev); if (d && aoProgresso) aoProgresso(d.join(' · ')); } });
     analise.ia = r.ok ? (IA.extrairJSON(r.texto) || { resumo: r.texto }) : { erro: r.motivo };
     if (r.ok) analise.custoIA = r.custo;

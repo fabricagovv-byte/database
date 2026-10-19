@@ -16,15 +16,35 @@ const limparTimers = () => { timers.forEach(clearInterval); timers = []; };
 const lembrar = (k, v) => { try { if (v === undefined) return JSON.parse(localStorage.getItem('v4p-' + k) || 'null'); localStorage.setItem('v4p-' + k, JSON.stringify(v)); } catch (e) { return null; } };
 
 /* ---------- API ---------- */
-let offline = false;
+/* Sem servidor do escritório (link do celular, arquivo aberto direto), o
+   painel vira DEMONSTRAÇÃO: mesmas telas, dados de exemplo neste navegador. */
+let DEMO = false;
+function ligarDemo() {
+  if (DEMO || !window.PAINEL_DEMO) return;
+  DEMO = true;
+  const f = document.createElement('div');
+  f.className = 'faixa-demo';
+  f.innerHTML = '<b>Demonstração</b> — dados de exemplo, guardados só neste navegador. Para buscar no PNCP, gerar código, consultar CNPJ e ligar o WhatsApp de verdade, rode <code>npm start</code> na pasta v4-escritorio e abra http://localhost:4321/painel.html. <button class="btn peq" id="demo-zerar">Recomeçar exemplo</button>';
+  document.querySelector('.topo').after(f);
+  f.querySelector('#demo-zerar').addEventListener('click', () => { window.PAINEL_DEMO.reiniciar(); ir(location.hash.slice(1) || 'inicio'); });
+}
 async function api(metodo, url, corpo) {
+  if (DEMO) return window.PAINEL_DEMO.chamar(metodo, url, corpo);
   let r;
   try {
     r = await fetch('/api/painel' + url, { method: metodo, headers: corpo !== undefined ? { 'Content-Type': 'application/json' } : {},
                                            body: corpo !== undefined ? JSON.stringify(corpo) : undefined });
-  } catch (e) { offline = true; throw new Error('O servidor do escritório não respondeu. Ele está ligado? (npm start)'); }
+  } catch (e) {
+    if (window.PAINEL_DEMO) { ligarDemo(); return api(metodo, url, corpo); }
+    throw new Error('O servidor do escritório não respondeu. Ele está ligado? (npm start)');
+  }
+  const tipo = r.headers.get('content-type') || '';
+  // quem responde sem JSON não é o escritório (hospedagem estática): demonstração
+  if (!/json/.test(tipo)) {
+    if (window.PAINEL_DEMO) { ligarDemo(); return api(metodo, url, corpo); }
+    throw new Error('O servidor do escritório não respondeu (' + r.status + '). Ele está ligado? (npm start)');
+  }
   const j = await r.json().catch(() => null);
-  if (!j && !r.ok) { offline = true; throw new Error('O servidor do escritório não respondeu (' + r.status + '). Ele está ligado? (npm start)'); }
   if (!r.ok) throw new Error((j && j.motivo) || ('erro ' + r.status));
   return j;
 }
@@ -51,7 +71,7 @@ const erroNaTela = e => { main.innerHTML = `<div class="vazio"><b>${esc(e.messag
 async function copiar(texto) {
   try { await navigator.clipboard.writeText(texto); aviso('Copiado.'); } catch (e) { aviso('Não deu para copiar automaticamente — selecione o texto.'); }
 }
-function baixar(url) { const a = document.createElement('a'); a.href = '/api/painel' + url; a.download = ''; document.body.appendChild(a); a.click(); a.remove(); }
+function baixar(url) { if (DEMO) return aviso('Na demonstração não há arquivo para baixar: os relatórios e o código saem do escritório no PC.', 5000); const a = document.createElement('a'); a.href = '/api/painel' + url; a.download = ''; document.body.appendChild(a); a.click(); a.remove(); }
 
 /* markdown mínimo: títulos, listas, tabelas, negrito, código, citação */
 function md(t) {
@@ -196,7 +216,7 @@ async function busca() {
     $('#prog').innerHTML = '<div class="progresso">Consultando o PNCP… (cada estado e modalidade é uma consulta; pode levar alguns minutos)</div>';
     try {
       const r = await acompanhar(await api('POST', '/licitacoes/buscar', f));
-      $('#prog').innerHTML = `<div class="progresso">${r.total} edital(is) passaram nos filtros, de ${r.bruto} encontrados em ${r.consultas} consulta(s).${r.erros.length ? '\n⚠ ' + r.erros.length + ' consulta(s) falharam: ' + esc(r.erros.slice(0, 3).join(' | ')) : ''}</div>`;
+      $('#prog').innerHTML = r.aviso ? `<div class="progresso">${r.total} edital(is) de exemplo passaram nos filtros.\n${esc(r.aviso)}</div>` : `<div class="progresso">${r.total} edital(is) passaram nos filtros, de ${r.bruto} encontrados em ${r.consultas} consulta(s).${r.erros.length ? '\n⚠ ' + r.erros.length + ' consulta(s) falharam: ' + esc(r.erros.slice(0, 3).join(' | ')) : ''}</div>`;
       mostrarResultado();
     } catch (e) { $('#prog').innerHTML = '<div class="progresso">❌ ' + esc(e.message) + '</div>'; }
     b.disabled = false;

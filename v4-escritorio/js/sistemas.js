@@ -9,6 +9,16 @@
 const SISTEMAS = (() => {
 
   let lista = [];          // último estado vindo do servidor
+  const interno = (id, nome, aba, sobre) => ({ id, nome, tipo: 'web', estado: 'web', embutir: true, url: 'painel.html#' + aba, sobre, dicas: [] });
+  const SEM_SERVIDOR = [
+    interno('v4-diretoria', 'Painel do CEO', 'inicio', 'Visão geral da V4.'),
+    interno('v4-licitacoes', 'Busca de Licitações', 'licitacoes', 'Busca no PNCP, carteira e análise.'),
+    interno('v4-fabrica', 'Fábrica de Software', 'fabrica', 'Pedidos de sistema, código, testes e relatórios.'),
+    interno('v4-comercial', 'Comercial', 'comercial', 'Contatos institucionais de órgãos e prefeituras.'),
+    interno('v4-whatsapp', 'Robô de WhatsApp', 'whatsapp', 'Robô de licitações no WhatsApp.'),
+    interno('v4-financeiro', 'Financeiro', 'financeiro', 'Lançamentos, saldo e relatórios.'),
+    interno('v4-ust', 'Gestão de UST', 'ust', 'Teto de UST, distribuição e relatórios.')
+  ];
   let aoMudar = [];
 
   const porId = id => lista.find(s => s.id === id) || null;
@@ -22,7 +32,9 @@ const SISTEMAS = (() => {
       if (!r.ok) throw new Error('HTTP ' + r.status);
       lista = await r.json();
     } catch (e) {
-      lista = [];          // servidor estático puro: sem API
+      // servidor estático puro (link do celular): os sistemas das salas são
+      // páginas do próprio painel, então continuam abrindo — em demonstração
+      lista = SEM_SERVIDOR;
     }
     avisar();
     return lista;

@@ -16,7 +16,7 @@ const ROSTER = (() => {
       role: 'CEO & Fundador · Diretoria',
       emoji: '👑', boss: true, dept: 'diretoria', slotId: 'DIR-1',
       status: 'trabalhando', locked: true,
-      source: 'Diretoria', sistema: null,
+      source: 'Diretoria', sistema: 'v4-diretoria',
       brief: 'Dono da V4 fábricagov. Define as licitações em que a casa entra, aprova propostas e acompanha a fábrica.',
       look: {
         skin: '#e0a878', hair: '#140f0c', style: 'fade',
@@ -283,6 +283,12 @@ const ROSTER = (() => {
     return base;
   }
 
+  /** o sistema que o computador do agente abre: a área do painel da função dele */
+  const SISTEMA_PADRAO = { servico: 'v4-fabrica', fabrica2: 'v4-fabrica', licitacoes: 'v4-licitacoes',
+                           financeiro: 'v4-financeiro', comercial: 'v4-comercial' };
+  const SISTEMA_POR_FUNCAO = { chatbot: 'v4-whatsapp', scrum: 'v4-ust', requisitos: 'v4-ust', controladoria: 'v4-ust', contratos: 'v4-ust' };
+  const sistemaPadrao = c => SISTEMA_POR_FUNCAO[c.key] || SISTEMA_PADRAO[c.sala] || null;
+
   function fromCatalog(c) {
     return {
       id: 'ag-' + c.key,
@@ -291,7 +297,7 @@ const ROSTER = (() => {
       role: c.role,
       emoji: c.emoji,
       system: c.system || null,
-      sistema: c.sistema || null,
+      sistema: c.sistema || sistemaPadrao(c),
       path: c.path || null,
       brief: c.desc,
       dept: c.sala || 'servico',
@@ -346,7 +352,7 @@ const ROSTER = (() => {
     for (const a of team) {
       const c = CATALOG.find(c => c.key === a.key);
       if (c) {
-        if (!a.sistema && c.sistema) a.sistema = c.sistema;
+        if (!a.sistema) a.sistema = c.sistema || sistemaPadrao(c);
         if (!a.boss && c.sala && !a.dept) a.dept = c.sala;
         if (c.path && a.path !== c.path) a.path = c.path;
       }
@@ -396,7 +402,7 @@ const ROSTER = (() => {
       role: data.role || 'Função a definir',
       emoji: data.emoji || '🤖',
       system: data.system || null, path: data.path || null,
-      sistema: data.sistema || null, reuniao: data.reuniao !== false,
+      sistema: data.sistema || SISTEMA_PADRAO[data.sala || 'servico'] || null, reuniao: data.reuniao !== false,
       brief: data.brief || '',
       dept: data.sala || 'servico', slotId: null, status: 'trabalhando',
       boss: false, locked: false, custom: true,

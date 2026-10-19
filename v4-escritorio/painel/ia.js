@@ -8,7 +8,17 @@
 const { spawn } = require('child_process');
 
 let BIN = 'claude';
-function init(bin) { BIN = bin || BIN; }
+let VAZIA = null;
+function init(bin, pastaVazia) { BIN = bin || BIN; VAZIA = pastaVazia || VAZIA; }
+
+/* Para ler edital ou escrever e-mail o agente não precisa da máquina: roda
+   numa pasta vazia, nega tudo que não foi liberado (dontAsk) e ainda tem
+   arquivos e terminal bloqueados — texto de edital não vira ordem aqui. */
+const SEM_MAQUINA = ['Bash', 'Read', 'Write', 'Edit', 'MultiEdit', 'NotebookEdit', 'Glob', 'Grep', 'Task', 'WebSearch'];
+function consultar(prompt, { web = false, limiteMs, aoEvento } = {}) {
+  return rodar({ prompt, cwd: VAZIA || undefined, modo: 'dontAsk', ferramentas: web ? ['WebFetch'] : [],
+                 bloquear: web ? SEM_MAQUINA : SEM_MAQUINA.concat('WebFetch'), limiteMs, aoEvento });
+}
 
 /**
  * @param o.prompt        texto do pedido
@@ -25,6 +35,7 @@ function rodar(o) {
     const args = ['-p', '--output-format', 'stream-json', '--verbose',
                   '--permission-mode', o.modo || 'plan'];
     if (o.ferramentas && o.ferramentas.length) args.push('--allowedTools', o.ferramentas.join(','));
+    if (o.bloquear && o.bloquear.length) args.push('--disallowedTools', o.bloquear.join(','));
     if (o.sistema) args.push('--append-system-prompt', o.sistema);
     if (o.resume) args.push('--resume', o.resume);
     if (o.modelo) args.push('--model', o.modelo);
@@ -99,4 +110,4 @@ function extrairJSON(texto) {
   return null;
 }
 
-module.exports = { init, rodar, descreverEvento, extrairJSON };
+module.exports = { init, rodar, consultar, descreverEvento, extrairJSON };

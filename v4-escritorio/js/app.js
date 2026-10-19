@@ -1236,7 +1236,7 @@ function pintarMonitor(soEstado) {
   $('#mon-sis').textContent = s.nome;
   luz.style.background = SISTEMAS.COR[s.estado] || 'var(--off)';
   luz.style.color = SISTEMAS.COR[s.estado] || 'var(--off)';
-  txt.textContent = s.tipo === 'web' ? 'site publicado'
+  txt.textContent = s.tipo === 'web' ? (/^painel\.html/.test(s.url || '') ? 'sistema da sala' : 'site publicado')
                   : s.externo ? 'no ar · fora daqui' : s.estado;
 
   const local = s.tipo === 'local';

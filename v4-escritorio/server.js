@@ -556,6 +556,17 @@ function gravarEquipe(team) {
   if (fs.existsSync(EQUIPE)) fs.copyFileSync(EQUIPE, EQUIPE_BAK);
   fs.writeFileSync(EQUIPE, JSON.stringify({ team, v: 1 }, null, 2));
 }
+/* os sistemas de cada sala entram no registro se ainda não estiverem lá */
+(function garantirSistemasInternos() {
+  const bruto = lerRegistroBruto();
+  let mudou = false;
+  for (const [id, s] of Object.entries(PAINEL.SISTEMAS_INTERNOS)) {
+    if (bruto[id]) continue;
+    bruto[id] = Object.assign({ tipo: 'web', embutir: true, interno: true }, s);
+    mudou = true;
+  }
+  if (mudou) { try { gravarRegistro(bruto); } catch (e) { console.error('  não gravei os sistemas do painel:', e.message); } }
+})();
 setImmediate(() => PAINEL.init({
   ROOT, CLAUDE_BIN, novoSistema, tirarSistema, ligar, desligar, portaLivre, estadoClaude,
   equipe: equipeDoDisco, gravarEquipe,

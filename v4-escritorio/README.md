@@ -45,6 +45,17 @@ O que precisa de você:
 - **WhatsApp:** um app na Meta for Developers com o WhatsApp (token, ID do número, App Secret) e um endereço HTTPS público apontando para este computador, por exemplo `cloudflared tunnel --url http://localhost:4321`. Só `/webhook/whatsapp` aceita acesso de fora, e só com a assinatura da Meta.
 - **Prefeitos:** o TSE publica nome e partido dos eleitos, não e-mail nem telefone. Os contatos são os institucionais do cadastro do CNPJ.
 
+Cada computador do escritório abre um sistema que funciona: o agente de
+licitações abre a busca de licitações, o da fábrica abre a fábrica, e assim por
+diante (financeiro, comercial, UST, WhatsApp; o CEO abre a visão geral). Quando
+a fábrica entrega um sistema novo, ele passa a abrir no computador do tech lead
+do squad. Os sistemas das salas entram sozinhos em `data/sistemas.json`.
+
+Sem o servidor (o painel aberto por um link estático, como no celular), o painel
+entra em **modo demonstração**: as mesmas telas com dados de exemplo guardados
+só naquele navegador e uma faixa amarela avisando. Busca no PNCP, IA, CNPJ e
+WhatsApp de verdade só com `npm start`.
+
 Segurança da fábrica: os agentes que escrevem o código só têm ferramentas de ler e escrever arquivos dentro da pasta do projeto. Rodar testes e ligar o sistema são sempre um clique seu no painel.
 
 Tudo do painel fica em `data/painel/` (fora do git). O código gerado fica em `projetos/` (também fora do git).

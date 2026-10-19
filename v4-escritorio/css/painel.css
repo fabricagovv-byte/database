@@ -28,6 +28,9 @@ button,input,select,textarea{font:inherit;color:inherit}
 .voltar{color:var(--fraco);text-decoration:none;font-weight:600;white-space:nowrap}
 .voltar:hover{color:var(--txt)}
 
+.faixa-demo{background:#2a1f05;border-bottom:1px solid #6b4f12;color:#fde68a;padding:9px 18px;font-size:13.5px;line-height:1.5}
+.faixa-demo code{background:rgba(0,0,0,.3);padding:1px 5px;border-radius:4px}
+.faixa-demo .btn{margin-left:8px;vertical-align:middle}
 main{max-width:1280px;margin:0 auto;padding:22px 18px 80px;outline:none}
 main:focus,main:focus-visible{outline:none}
 h1{font-family:var(--fd);font-size:26px;margin:0 0 4px;text-wrap:balance}

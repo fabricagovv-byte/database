@@ -131,7 +131,7 @@ async function abordagem(id) {
 Escreva um e-mail curto e respeitoso de apresentação institucional para este órgão. Tom formal, sem promessas de vantagem, sem pedir reunião fora dos canais oficiais, lembrando que contratações seguem a Lei 14.133.
 Órgão: ${JSON.stringify({ nome: c.nome, municipio: c.municipio, uf: c.uf, prefeito: c.prefeito || null, editaisRelacionados: relacionados })}
 Responda só com o e-mail: primeira linha "Assunto: ...", depois o corpo, assinado por "Natália — Relacionamento Institucional, V4 fábricagov".`;
-  const r = await IA.rodar({ prompt, modo: 'plan', limiteMs: 3 * 60000 });
+  const r = await IA.consultar(prompt, { limiteMs: 3 * 60000 });
   if (!r.ok) throw new Error(r.motivo);
   atualizar(id, {}); const d = ler(); d.itens[id].rascunho = r.texto; U.gravar('contatos.json', d);
   return { texto: r.texto };

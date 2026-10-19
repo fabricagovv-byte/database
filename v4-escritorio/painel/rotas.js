@@ -18,7 +18,9 @@ let D = null;
 function init(dep) {
   D = dep;
   U.init(dep.ROOT);
-  IA.init(dep.CLAUDE_BIN);
+  const vazia = require('path').join(dep.ROOT, 'data', 'painel', 'ia-vazia');
+  require('fs').mkdirSync(vazia, { recursive: true });
+  IA.init(dep.CLAUDE_BIN, vazia);
   FAB.init(dep);
   WA.init({ licitacoes: LIC, fabrica: FAB, ust: UST, financeiro: FIN, equipe: dep.equipe });
   LIC.agendarRadar(avisarTudo);
@@ -231,4 +233,16 @@ async function webhook(req, res, url) {
   } catch (e) { res.writeHead(400).end('erro'); }
 }
 
-module.exports = { init, rotear, webhook };
+/* Os sistemas de cada sala: o computador de cada agente abre a área do
+   painel que é o trabalho dele. Ficam no registro como sistema "web". */
+const SISTEMAS_INTERNOS = {
+  'v4-diretoria':   { nome: 'Painel do CEO', url: 'painel.html#inicio', sobre: 'Visão geral da V4: licitações, fábrica, comercial, caixa e UST.' },
+  'v4-licitacoes':  { nome: 'Busca de Licitações', url: 'painel.html#licitacoes', sobre: 'Busca no PNCP com filtros, carteira, análise e radar diário.' },
+  'v4-fabrica':     { nome: 'Fábrica de Software', url: 'painel.html#fabrica', sobre: 'Pedidos de sistema, squads, código, testes, prévia e relatórios.' },
+  'v4-comercial':   { nome: 'Comercial', url: 'painel.html#comercial', sobre: 'Contatos institucionais de órgãos e prefeituras, situação e rascunhos de e-mail.' },
+  'v4-whatsapp':    { nome: 'Robô de WhatsApp', url: 'painel.html#whatsapp', sobre: 'Configuração, simulador e mensagens do robô de licitações.' },
+  'v4-financeiro':  { nome: 'Financeiro', url: 'painel.html#financeiro', sobre: 'Lançamentos, saldo, projeção e relatórios.' },
+  'v4-ust':         { nome: 'Gestão de UST', url: 'painel.html#ust', sobre: 'Teto de UST por contrato, distribuição pelo time e relatórios.' }
+};
+
+module.exports = { init, rotear, webhook, SISTEMAS_INTERNOS };
