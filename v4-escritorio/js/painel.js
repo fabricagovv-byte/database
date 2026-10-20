@@ -11,6 +11,8 @@ const nfmt = v => Number(v || 0).toLocaleString('pt-BR', { maximumFractionDigits
 const dataBR = iso => iso ? new Date(iso).toLocaleString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' }) : '—';
 const UFS = 'AC AL AM AP BA CE DF ES GO MA MG MS MT PA PB PE PI PR RJ RN RO RR RS SC SE SP TO'.split(' ');
 const main = $('#conteudo');
+// aberto dentro do monitor de um agente no escritório: sem logo nem botão de voltar
+if (new URLSearchParams(location.search).has('embutido')) document.documentElement.classList.add('embutido');
 let timers = [];
 const limparTimers = () => { timers.forEach(clearInterval); timers = []; };
 const lembrar = (k, v) => { try { if (v === undefined) return JSON.parse(localStorage.getItem('v4p-' + k) || 'null'); localStorage.setItem('v4p-' + k, JSON.stringify(v)); } catch (e) { return null; } };
@@ -24,9 +26,20 @@ function ligarDemo() {
   DEMO = true;
   const f = document.createElement('div');
   f.className = 'faixa-demo';
-  f.innerHTML = '<b>Demonstração</b> — dados de exemplo, guardados só neste navegador. Para buscar no PNCP, gerar código, consultar CNPJ e ligar o WhatsApp de verdade, rode <code>npm start</code> na pasta v4-escritorio e abra http://localhost:4321/painel.html. <button class="btn peq" id="demo-zerar">Recomeçar exemplo</button>';
+  f.innerHTML = '<b>Demonstração</b> · dados de exemplo. Os dados reais aparecem no computador onde o escritório está ligado. ' +
+    '<button class="btn peq" id="demo-como">Como ligar</button> <button class="btn peq" id="demo-zerar">Recomeçar</button>';
   document.querySelector('.topo').after(f);
   f.querySelector('#demo-zerar').addEventListener('click', () => { window.PAINEL_DEMO.reiniciar(); ir(location.hash.slice(1) || 'inicio'); });
+  f.querySelector('#demo-como').addEventListener('click', () => modal(`<h2 style="margin-top:0">Como ligar o escritório de verdade</h2>
+    <p class="dica">Este link é só uma demonstração. O escritório real roda no seu computador (Windows), porque usa a IA e cria os sistemas na sua máquina.</p>
+    <ol style="line-height:1.7;padding-left:20px">
+      <li>No computador, instale o Node.js (versão LTS) em <a href="https://nodejs.org" target="_blank" rel="noopener">nodejs.org</a>.</li>
+      <li>Baixe o código: <a href="https://github.com/fabricagovv-byte/database/archive/refs/heads/claude/v4-virtual-office-design-pgfeip.zip" target="_blank" rel="noopener">arquivo .zip do escritório</a>.</li>
+      <li>Descompacte e abra a pasta <b>v4-escritorio</b>.</li>
+      <li>Dê dois cliques em <b>INICIAR ESCRITORIO.cmd</b> e deixe a janela preta aberta.</li>
+      <li>No navegador <b>desse mesmo computador</b>, abra <b>localhost:4321</b>.</li>
+    </ol>
+    <p class="dica">"localhost" quer dizer "este computador": por isso o endereço não abre no celular.</p>`));
 }
 async function api(metodo, url, corpo) {
   if (DEMO) return window.PAINEL_DEMO.chamar(metodo, url, corpo);

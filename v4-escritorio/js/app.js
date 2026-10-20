@@ -1251,11 +1251,16 @@ function pintarMonitor(soEstado) {
   // dá para conversar mesmo desligado, e mesmo com sistema publicado:
   // o que o agente precisa é da pasta do projeto, não do servidor no ar
   $('#mon-chat').disabled = !s.pasta;
+  // botão que não serve para este sistema some, em vez de ficar apagado:
+  // no celular a barra do monitor não tem espaço sobrando
+  [['#mon-ligar', local], ['#mon-desligar', local], ['#mon-log', local], ['#mon-chat', !!s.pasta]]
+    .forEach(([sel, mostra]) => { $(sel).style.display = mostra ? '' : 'none'; });
 
   // sistema que recusa iframe entra pelo espelho (urlEmbutida); se nem o
   // espelho subiu, não adianta insistir — o quadro ficaria branco
   const noAr = s.tipo === 'web' || s.estado === 'no ar';
-  const urlQuadro = s.urlEmbutida || s.url;
+  // as áreas do painel abertas dentro do monitor escondem o próprio topo
+  const urlQuadro = (s.urlEmbutida || s.url || '').replace(/^painel\.html(?!\?)/, 'painel.html?embutido=1');
   const bloqueado = s.embutir === false || (s.embutir === 'espelho' && !s.urlEmbutida);
   const podeMostrar = noAr && !bloqueado;
   if (soEstado && podeMostrar && mon.frame.dataset.url === urlQuadro) return;
