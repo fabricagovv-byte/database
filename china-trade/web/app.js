@@ -569,7 +569,7 @@ function desenharMenu() {
 // ---------- telas ----------
 const T = {};
 const cab = (titulo, sub, acoes = "") => `<div class="cab"><div><h1>${esc(titulo)}</h1>${sub ? `<p>${sub}</p>` : ""}</div><div class="acoes">${acoes}</div></div>`;
-const avisoFonte = () => Store.todos("cotacoes").length || Store.feed.size ? (Store.feedInfo ? `<p class="suave" style="margin:0;font-size:.82rem">Última coleta automática: ${esc(dataBR(Store.feedInfo.gerado_em))} (${esc(Store.feedInfo.origem || "")}).</p>` : "") : `<div class="nota"><b>Ainda não há cotações carregadas.</b> Nada aqui é inventado: os preços chegam do servidor (Binance, Yahoo Finance, AwesomeAPI e outras fontes configuráveis), da rotina de atualização do claude.ai ou de um lançamento manual em Configurações. Veja o estado das fontes em Administração.</div>`;
+const avisoFonte = () => Store.todos("cotacoes").length || Store.feed.size ? (Store.feedInfo ? `<p class="suave" style="margin:0;font-size:.82rem">Cotações atualizadas em ${esc(dataBR(Store.feedInfo.gerado_em))} · origem: ${esc(Store.feedInfo.origem || "")}. A fonte de cada valor aparece na tabela.</p>` : "") : `<div class="nota"><b>Ainda não há cotações carregadas.</b> Nada aqui é inventado: os preços chegam do servidor (Binance, Yahoo Finance, AwesomeAPI e outras fontes configuráveis), da rotina de atualização do claude.ai ou de um lançamento manual em Configurações. Veja o estado das fontes em Administração.</div>`;
 
 T.dashboard = () => {
   const mes = hoje().slice(0, 7);
