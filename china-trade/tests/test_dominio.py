@@ -66,3 +66,18 @@ def test_senha_e_totp():
     segredo = "GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ"
     assert codigo_totp(segredo, 59) == "287082"
     assert conferir_totp(segredo, codigo_totp(segredo))
+
+
+def test_feed_junta_historico_e_mantem_ativos_antigos():
+    from chinatrade.feed import mesclar
+    ant = [{"id": "BTC", "preco": 100.0, "horario": "2026-11-01T00:00:00Z", "historico": []},
+           {"id": "PETR4", "preco": 52.2, "horario": "2026-10-29T20:00:00Z", "historico": []}]
+    novos = [{"id": "BTC", "preco": 101.0, "horario": "2026-11-01T02:00:00Z", "fonte": "x"}]
+    d = mesclar(ant, novos, "teste")
+    btc = next(q for q in d["itens"] if q["id"] == "BTC")
+    assert [p["c"] for p in btc["historico"]] == [100.0, 101.0] and btc["preco"] == 101.0
+    assert any(q["id"] == "PETR4" for q in d["itens"])  # continua com o último valor
+    d2 = mesclar(d["itens"], novos, "teste")  # repetir o mesmo horário não duplica
+    assert len(next(q for q in d2["itens"] if q["id"] == "BTC")["historico"]) == 2
+    longo = [{"id": "ETH", "preco": 5.0, "horario": "2026-11-01", "historico": [{"t": f"2026-10-{i:02d}", "c": i} for i in range(1, 31)]}]
+    assert len(next(q for q in mesclar([], longo, "t")["itens"] if q["id"] == "ETH")["historico"]) == 31

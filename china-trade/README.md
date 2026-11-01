@@ -71,7 +71,9 @@ A página do claude.ai não pode chamar sites externos. As cotações chegam com
 chinatrade coletar-cotacoes --formato artifact --saida feed.json
 ```
 
-e gravar `feed.json` no banco do artefato (uma rotina agendada do Claude Code pode fazer isso de hora em hora,
+e gravar `feed.json` no banco do artefato. Para juntar o histórico (cada atualização vira um ponto no gráfico):
+`python3 -m chinatrade.feed --anterior ultimo.json --novos novos.json --saida feed.json`. A página mostra o selo
+"ao vivo", destaca os preços que mudaram e exibe o valor de cada ponto ao tocar no gráfico. Gravar (uma rotina agendada do Claude Code pode fazer isso de hora em hora,
 desde que o ambiente libere os domínios das fontes acima).
 
 ## Segurança

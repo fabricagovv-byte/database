@@ -178,6 +178,7 @@ const Store = {
     // cotações publicadas pelo servidor ou pela rotina de atualização: um documento por coleta, lemos o mais novo
     this.db.collection("cotacoes_feed").orderBy("gerado_em", "desc").limit(1).onSnapshot((snap) => {
       const d = snap.docs[0]?.data();
+      marcarMudancas(d?.itens || []);
       this.feed = new Map((d?.itens || []).map((q) => [q.id, q]));
       this.feedInfo = d ? { gerado_em: d.gerado_em, origem: d.origem } : null;
       mudou("cotacoes");
@@ -237,7 +238,7 @@ function abrirSocket() {
   if (socket) return;
   try {
     socket = new WebSocket(location.origin.replace(/^http/, "ws") + "/api/ws");
-    socket.onmessage = (ev) => { const q = JSON.parse(ev.data); if (q?.id) { Store.feed.set(q.id, q); mudou("cotacoes"); } };
+    socket.onmessage = (ev) => { const q = JSON.parse(ev.data); if (q?.id) { marcarMudancas([q]); Store.feed.set(q.id, q); Store.feedInfo = { gerado_em: agora(), origem: "servidor (ao vivo)" }; mudou("cotacoes"); } };
     socket.onclose = () => { socket = null; setTimeout(() => Store.usuario && abrirSocket(), 5000); };
   } catch { socket = null; }
 }
@@ -267,6 +268,41 @@ const pill = (tipo) => {
   const r = { tempo_real: "tempo real", atrasada: "atrasada", indicativa: "indicativa", manual: "manual" };
   return `<span class="pill ${esc(tipo || "sem")}">${esc(r[tipo] || "sem dados")}</span>`;
 };
+
+// ---------- ao vivo: o que mudou, selo no topo e dica dos gráficos ----------
+const MUDOU = new Map();
+function marcarMudancas(itens) {
+  MUDOU.clear();
+  if (!Store.feed.size) return; // primeira carga não pisca
+  for (const q of itens) { const a = Store.feed.get(q.id); if (a && q.preco != null && a.preco !== q.preco) MUDOU.set(q.id, q.preco > a.preco ? "subiu" : "caiu"); }
+  if (MUDOU.size) { toast(`Cotações atualizadas: ${MUDOU.size} ativo(s) mudaram.`); setTimeout(() => { MUDOU.clear(); $$(".piscou").forEach((e) => e.classList.remove("piscou", "subiu", "caiu")); }, 6000); }
+}
+function seloAoVivo() {
+  const el = $("#aovivo"); if (!el) return;
+  const g = Store.feedInfo?.gerado_em;
+  if (!g) { el.hidden = true; return; }
+  const min = Math.max(0, Math.round((Date.now() - new Date(g)) / 6e4));
+  const quando = min < 1 ? "agora" : min < 60 ? `há ${min} min` : min < 1440 ? `há ${Math.round(min / 60)} h` : `há ${Math.round(min / 1440)} d`;
+  el.hidden = false; el.dataset.estado = min <= 90 ? "vivo" : "parado";
+  el.innerHTML = `<span class="ponto"></span>${min <= 90 ? "ao vivo" : "cotações"} · ${esc(quando)}`;
+  el.title = "Origem: " + (Store.feedInfo.origem || "") + ". A página se atualiza sozinha quando chegam cotações novas.";
+}
+setInterval(seloAoVivo, 30000);
+function dicaGrafico(ev) {
+  const g = ev.target.closest(".grafico[data-pts]"); if (!g) return;
+  const d = JSON.parse(g.dataset.pts); const svg = g.querySelector("svg"); const r = svg.getBoundingClientRect();
+  const px = ((ev.touches ? ev.touches[0].clientX : ev.clientX) - r.left) * (d.W / r.width);
+  let i = 0; for (let k = 1; k < d.x.length; k++) if (Math.abs(d.x[k] - px) < Math.abs(d.x[i] - px)) i = k;
+  const [linha, bola] = svg.querySelectorAll(".cursor");
+  linha.setAttribute("x1", d.x[i]); linha.setAttribute("x2", d.x[i]); bola.setAttribute("cx", d.x[i]); bola.setAttribute("cy", d.y[i]);
+  linha.setAttribute("visibility", "visible"); bola.setAttribute("visibility", "visible");
+  const dica = g.querySelector(".dica"); dica.hidden = false;
+  dica.textContent = `${fmtN(d.c[i], d.c[i] > 1000 ? 2 : 4)} · ${d.t[i].length > 10 ? dataBR(d.t[i]) : dataBR(d.t[i], false)}`;
+  const esq = (d.x[i] / d.W) * r.width; dica.style.left = Math.min(Math.max(0, esq - 60), r.width - 130) + "px";
+}
+document.addEventListener("pointermove", dicaGrafico);
+document.addEventListener("touchmove", dicaGrafico, { passive: true });
+document.addEventListener("pointerleave", (ev) => { if (ev.target.closest?.(".grafico")) { /* mantém o último ponto visível */ } }, true);
 
 // ---------- indicadores (mesmas fórmulas do backend: chinatrade/dominio/indicadores.py) ----------
 const Ind = {
@@ -402,14 +438,18 @@ function grafico(pontos, { altura = 200, cor = "var(--acento)", rotuloY = (v) =>
   const area = d + ` L${x(pts.length - 1).toFixed(1)} ${H - mb} L${x(0)} ${H - mb} Z`;
   const ticks = [mn, (mn + mx) / 2, mx];
   const ult = pts.at(-1);
-  return `<div class="grafico"><svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Gráfico histórico">
+  const curto = new Date(ult.t) - new Date(pts[0].t) < 3 * 864e5;
+  const rot = (t) => (curto ? dataBR(t.length === 10 ? t + "T12:00:00Z" : t) : dataBR(t, false));
+  const dados = esc(JSON.stringify({ x: pts.map((_, i) => +x(i).toFixed(1)), y: pts.map((p) => +y(+p.c).toFixed(1)), c: pts.map((p) => +p.c), t: pts.map((p) => p.t), W, H, mt, mb }));
+  return `<div class="grafico" data-pts="${dados}"><svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Gráfico histórico, toque para ver os valores">
     ${ticks.map((t) => `<line x1="${ml}" x2="${W - mr}" y1="${y(t)}" y2="${y(t)}" stroke="var(--linha)" stroke-width="1"/><text x="${W - mr + 6}" y="${y(t) + 4}" font-size="11" fill="var(--suave)" font-family="var(--f-mono)">${esc(rotuloY(t))}</text>`).join("")}
     ${linhas.filter((l) => l.v != null).map((l) => `<line x1="${ml}" x2="${W - mr}" y1="${y(l.v)}" y2="${y(l.v)}" stroke="${l.cor}" stroke-dasharray="4 4" stroke-width="1"/><text x="${ml + 4}" y="${y(l.v) - 4}" font-size="10" fill="${l.cor}">${esc(l.r)}</text>`).join("")}
     <path d="${area}" fill="${cor}" opacity=".10"/><path d="${d}" fill="none" stroke="${cor}" stroke-width="2"/>
     <circle cx="${x(pts.length - 1)}" cy="${y(+ult.c)}" r="4" fill="${cor}"/>
-    <text x="${ml}" y="${H - 6}" font-size="11" fill="var(--suave)">${esc(dataBR(pts[0].t, false))}</text>
-    <text x="${W - mr}" y="${H - 6}" font-size="11" fill="var(--suave)" text-anchor="end">${esc(dataBR(ult.t, false))}</text>
-  </svg></div>`;
+    <text x="${ml}" y="${H - 6}" font-size="11" fill="var(--suave)">${esc(rot(pts[0].t))}</text>
+    <text x="${W - mr}" y="${H - 6}" font-size="11" fill="var(--suave)" text-anchor="end">${esc(rot(ult.t))}</text>
+    <line class="cursor" x1="0" x2="0" y1="${mt}" y2="${H - mb}" stroke="var(--suave)" stroke-width="1" visibility="hidden"/><circle class="cursor" r="4" fill="var(--papel)" stroke="${cor}" stroke-width="2" visibility="hidden"/>
+  </svg><div class="dica" hidden></div><p class="suave" style="margin:4px 0 0;font-size:.76rem">${pts.length} pontos · toque ou passe o dedo no gráfico para ver cada valor</p></div>`;
 }
 function barras(itens, fmt = (v) => moeda(v)) {
   if (!itens.length) return `<div class="vazio">Sem dados no período.</div>`;
@@ -592,7 +632,7 @@ T.dashboard = () => {
       <div class="kpi"><span class="rotulo">Alertas em 24 h</span><b>${disp}</b><small>${Store.todos("alertas").filter((a) => a.ativo).length} regras ativas</small></div>
     </div>
     <section class="painel"><header><h2>Mercado agora</h2><a href="#bolsa" class="btn mini">Ver tudo</a></header>
-      <div class="kpis">${faixa.map((q) => `<a class="kpi" href="#${q.classe === "moeda" ? "cambio" : q.classe === "cripto" ? "cripto" : "bolsa"}" style="text-decoration:none;color:inherit"><span class="rotulo">${esc(q.nome)}</span><b>${q.preco != null ? (q.classe === "indice" ? fmtN(q.preco, 0) : moeda(q.preco, q.moeda === "pts" ? "BRL" : q.moeda || "BRL")) : "—"}</b><small><span class="${cls(q.variacao_pct)}">${pct(q.variacao_pct)}</span> · ${pill(q.tipo)}</small></a>`).join("")}</div>
+      <div class="kpis">${faixa.map((q) => `<a class="kpi" href="#${q.classe === "moeda" ? "cambio" : q.classe === "cripto" ? "cripto" : "bolsa"}" style="text-decoration:none;color:inherit"><span class="rotulo">${esc(q.nome)}</span><b>${q.preco != null ? (q.classe === "indice" ? fmtN(q.preco, 0) : moeda(q.preco, q.moeda === "pts" ? "BRL" : q.moeda || "BRL")) : "—"}</b><small><span class="${cls(q.variacao_pct)}">${pct(q.variacao_pct)}</span> · ${pill(q.tipo)}</small>${spark(q.historico)}</a>`).join("")}</div>
       ${avisoFonte()}
     </section>
     <div class="grade l2">
@@ -614,7 +654,7 @@ function telaMercado(classes, titulo, sub) {
     tabela(id, lista, [
       { l: "Ativo", h: (q) => `<button class="btn mini" data-a="ver-ativo" data-id="${esc(q.id)}">${esc(q.simbolo)}</button> <span class="suave">${esc(q.nome)}</span>`, ord: (q) => q.simbolo },
       { l: "Classe", v: (q) => CLASSES[q.classe] || q.classe },
-      { l: "Preço", num: 1, h: (q) => q.preco == null ? "—" : `<span class="num">${q.moeda === "pts" ? fmtN(q.preco, 0) : moeda(q.preco, q.moeda || "BRL")}</span>`, ord: (q) => q.preco ?? -1 },
+      { l: "Preço", num: 1, h: (q) => q.preco == null ? "—" : `<span class="num ${MUDOU.has(q.id) ? "piscou " + MUDOU.get(q.id) : ""}">${q.moeda === "pts" ? fmtN(q.preco, 0) : moeda(q.preco, q.moeda || "BRL")}</span>`, ord: (q) => q.preco ?? -1 },
       ...(classes.includes("cripto") ? [{ l: "Em reais", num: 1, h: (q) => (q.preco != null && usd ? `<span class="num">${moeda(q.preco * usd.v)}</span>` : "—") }] : []),
       { l: "Variação", num: 1, h: (q) => `<span class="num ${cls(q.variacao_pct)}">${pct(q.variacao_pct)}</span>`, ord: (q) => q.variacao_pct ?? -999 },
       { l: "30 dias", h: (q) => spark(q.historico) },
@@ -1143,6 +1183,7 @@ function render() {
   const r = rota();
   if (Store.modo === "api" && !Store.usuario) { $("#menu").innerHTML = ""; $("#conteudo").innerHTML = T.login(); ligarLogin(); return; }
   desenharMenu();
+  seloAoVivo();
   const m = $("#modo"); m.dataset.m = Store.modo; m.textContent = { claude: "salvo no claude.ai", api: "servidor", local: "só neste navegador" }[Store.modo] || "";
   // guarda valores e foco dos campos da tela antes de redesenhar
   const vals = {}; $$("#conteudo input[id], #conteudo select[id], #conteudo textarea[id]").forEach((el) => { if (el.type !== "file") vals[el.id] = el.type === "checkbox" ? el.checked : el.value; });
