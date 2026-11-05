@@ -165,6 +165,19 @@ def test_adaptadores_de_mercado_com_respostas_simuladas():
     pet = mercado.Yahoo(c).cotar("PETR4")
     assert pet["classe"] == "acao_br" and pet["tipo"] == "atrasada" and round(pet["variacao_pct"], 2) == round((37.5 / 37 - 1) * 100, 2)
     assert mercado.simbolo_yahoo("IBOV") == "^BVSP"
+    assert mercado.simbolo_yahoo("BTC") == "BTC-USD" and mercado.simbolo_yahoo("CNYBRL") == "CNYBRL=X"
+    # Binance bloqueada (451): cripto cai para o Yahoo Finance
+    def rota2(req: httpx.Request) -> httpx.Response:
+        u = str(req.url)
+        if "binance" in u:
+            return httpx.Response(451)
+        if "BTC-USD" in u:
+            return httpx.Response(200, json={"chart": {"result": [{"meta": {"regularMarketPrice": 80000.0, "regularMarketTime": 1793500000},
+                                                                   "timestamp": [1793400000], "indicators": {"quote": [{"close": [79000.0]}]}}]}})
+        return httpx.Response(404)
+    cots2, _ = mercado.coletar([], cliente=httpx.Client(transport=httpx.MockTransport(rota2)))
+    btc2 = next(q for q in cots2 if q["id"] == "BTC")
+    assert btc2["fonte"] == "Yahoo Finance" and btc2["classe"] == "cripto" and btc2["moeda"] == "USD"
     # uma fonte fora do ar não derruba as outras e nada é inventado
     cots, erros = mercado.coletar(["XYZ1"], cliente=c)
     ids = {q["id"] for q in cots}

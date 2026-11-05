@@ -42,6 +42,10 @@ def _classe_acao(sid: str) -> tuple[str, str, str]:
 
 
 def simbolo_yahoo(sid: str) -> str:
+    if sid in CRIPTO:
+        return sid + "-USD"
+    if len(sid) == 6 and sid.endswith("BRL") and sid[:3] in MOEDAS:
+        return sid + "=X"
     if sid in INDICES:
         return INDICES[sid][1]
     return sid + ".SA" if (sid in B3 or sid[-1:].isdigit()) else sid
@@ -66,10 +70,16 @@ class Yahoo:
         ant = meta.get("chartPreviousClose") or meta.get("previousClose")
         if len(hist) >= 2:
             ant = hist[-2]["c"] if hist[-1]["t"] == _iso(meta.get("regularMarketTime", 0))[:10] else hist[-1]["c"]
-        nome, classe, moeda = _classe_acao(sid)
+        tipo = "atrasada"
+        if sid in CRIPTO:
+            nome, classe, moeda, tipo = CRIPTO[sid], "cripto", "USD", "indicativa"
+        elif simbolo_yahoo(sid).endswith("=X"):
+            nome, classe, moeda, tipo = MOEDAS[sid[:3]], "moeda", "BRL", "indicativa"
+        else:
+            nome, classe, moeda = _classe_acao(sid)
         return {"id": sid, "simbolo": sid, "nome": nome, "classe": classe, "moeda": moeda, "preco": preco,
                 "variacao_pct": (preco / ant - 1) * 100 if preco and ant else None, "horario": _iso(meta.get("regularMarketTime", 0)),
-                "fonte": self.nome, "tipo": "atrasada", "historico": hist[-180:]}
+                "fonte": self.nome, "tipo": tipo, "historico": hist[-180:]}
 
 
 class Brapi:
@@ -196,10 +206,14 @@ def coletar(extras: list[str] | None = None, cliente: httpx.Client | None = None
     saida, erros = [], []
     for tipo, sid in universo(extras):
         try:
-            if tipo == "cripto":
-                q = binance.cotar(sid)
-            elif tipo == "moeda":
-                q = fx.cotar(sid)
+            if tipo in {"cripto", "moeda"}:
+                # Binance bloqueia alguns países (451) e a AwesomeAPI limita pedidos (429): o Yahoo Finance é a reserva
+                try:
+                    q = binance.cotar(sid) if tipo == "cripto" else fx.cotar(sid)
+                except (httpx.HTTPError, KeyError, IndexError, TypeError, ValueError):
+                    q = None
+                if q is None:
+                    q = yahoo.cotar(sid if tipo == "cripto" else sid + "BRL")
             elif brapi and _classe_acao(sid)[2] == "BRL" and sid not in INDICES:
                 q = brapi.cotar(sid)
             else:
