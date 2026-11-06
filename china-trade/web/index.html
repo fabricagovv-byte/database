@@ -136,6 +136,21 @@ tbody tr:hover{background:var(--papel2)}
 .piscou.subiu{background:color-mix(in srgb,var(--alta) 22%,transparent)}
 .piscou.caiu{background:color-mix(in srgb,var(--queda) 22%,transparent)}
 .kpi svg{margin-top:4px}
+.sem-foto{display:inline-block}
+.foto-prev{width:72px;height:72px;object-fit:cover;border-radius:8px;background:var(--papel2);border:1px solid var(--linha);flex:none}
+.linha-foto{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.linha-foto input[type=text]{flex:1;min-width:180px}
+.trade-topo{display:flex;justify-content:space-between;align-items:end;gap:8px;flex-wrap:wrap}
+.trade-grafico{height:420px;width:100%;min-width:0;border:1px solid var(--linha);border-radius:8px;overflow:hidden}
+@media (max-width:600px){.trade-grafico{height:320px}}
+.mapa{display:grid;grid-template-columns:repeat(auto-fill,minmax(92px,1fr));gap:6px}
+.tile{border:1px solid var(--linha);border-radius:8px;padding:8px 6px;display:flex;flex-direction:column;gap:2px;align-items:flex-start;cursor:pointer;color:var(--tinta);text-align:left;font:inherit}
+.tile b{font-family:var(--f-disp);font-size:.9rem}.tile span{font-size:.82rem}.tile small{font-size:.7rem;color:var(--suave)}
+.tile:hover{border-color:var(--acento)}
+.anuncio{display:flex;gap:12px;align-items:flex-start;border-top:1px solid var(--linha);padding-top:12px}
+.cmd{position:relative;margin:6px 0}.cmd pre{background:var(--papel2);border:1px solid var(--linha);border-radius:8px;padding:10px 12px;padding-right:80px;overflow-x:auto;font:.82rem/1.5 var(--f-mono);margin:0;white-space:pre}
+.cmd .btn{position:absolute;top:6px;right:6px}
+.guia ol,.guia ul{padding-left:20px;display:flex;flex-direction:column;gap:8px;margin:0}.guia p{margin:0;max-width:75ch}
+.guia code{font-family:var(--f-mono);font-size:.85em;background:var(--papel2);padding:1px 4px;border-radius:4px}
 @media (max-width:860px){
   .app{grid-template-columns:minmax(0,1fr)}
   .menu{position:fixed;left:0;top:0;bottom:0;height:auto;width:min(280px,85vw);z-index:45;transform:translateX(-105%);transition:transform .2s;padding-top:max(16px,env(safe-area-inset-top,0px))}
@@ -146,6 +161,7 @@ tbody tr:hover{background:var(--papel2)}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lightweight-charts@4.1.3/dist/lightweight-charts.standalone.production.js"></script>
 
 <div class="app">
   <nav class="menu" id="menu" aria-label="Módulos"></nav>
@@ -168,3 +184,4 @@ tbody tr:hover{background:var(--papel2)}
 <div id="janela-raiz"></div>
 <div class="toasts" id="toasts" aria-live="polite"></div>
 <script src="app.js"></script>
+<script src="modulos.js"></script>

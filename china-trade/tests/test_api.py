@@ -38,7 +38,7 @@ def test_pagina_e_saude(cli):
     r = cli.get("/")
     assert "<title>China Trade Intelligence</title>" in r.text and r.text.startswith("<!doctype html>")
     assert "frame-ancestors 'none'" in r.headers["content-security-policy"]
-    assert cli.get("/app.js").status_code == 200
+    assert cli.get("/app.js").status_code == 200 and cli.get("/modulos.js").status_code == 200 and cli.get("/x.js").status_code == 404
 
 
 def test_cadastro_login_papeis_e_csrf(cli):
@@ -163,6 +163,7 @@ def test_adaptadores_de_mercado_com_respostas_simuladas():
     cny = mercado.AwesomeAPI(c).cotar("CNY")
     assert cny["id"] == "CNYBRL" and cny["tipo"] == "indicativa"
     pet = mercado.Yahoo(c).cotar("PETR4")
+    assert pet["velas"] == [] or isinstance(pet["velas"], list)
     assert pet["classe"] == "acao_br" and pet["tipo"] == "atrasada" and round(pet["variacao_pct"], 2) == round((37.5 / 37 - 1) * 100, 2)
     assert mercado.simbolo_yahoo("IBOV") == "^BVSP"
     assert mercado.simbolo_yahoo("BTC") == "BTC-USD" and mercado.simbolo_yahoo("CNYBRL") == "CNYBRL=X"

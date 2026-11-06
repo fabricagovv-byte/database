@@ -61,6 +61,8 @@ def mesclar(anterior: list[dict], novos: list[dict], origem: str, agora: datetim
         saida[n["id"]] = n
     for q in saida.values():
         q["historico"] = sorted({p["t"]: p for p in q.get("historico") or []}.values(), key=lambda p: p["t"])[-MAX_PONTOS:]
+        if q.get("velas"):  # com velas, o histórico de fechamentos só alimenta o mini gráfico
+            q["historico"] = q["historico"][-40:]
     return {"gerado_em": agora.isoformat().replace("+00:00", "Z"), "origem": origem, "itens": list(saida.values())}
 
 
@@ -78,6 +80,8 @@ def main(argv: list[str] | None = None) -> int:
     while len(texto.encode()) > 240_000:  # limite de 256 KB por documento
         for q in doc["itens"]:
             q["historico"] = q["historico"][len(q["historico"]) // 4:]
+            if q.get("velas"):
+                q["velas"] = q["velas"][len(q["velas"]) // 5:]
         texto = json.dumps(doc, ensure_ascii=False)
     Path(a.saida).write_text(texto, encoding="utf-8")
     com_hist = sum(len(q["historico"]) >= 2 for q in doc["itens"])

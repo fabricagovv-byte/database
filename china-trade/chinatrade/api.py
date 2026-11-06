@@ -30,7 +30,7 @@ from .integracoes import china, outras
 log = logging.getLogger(__name__)
 WEB = Path(__file__).resolve().parent.parent / "web"
 COLECOES = {"produtos", "fornecedores", "contatos", "tarefas", "clientes", "vendas", "links", "watchlist", "carteira", "paper",
-            "alertas", "alertas_log", "conversoes", "cotacoes", "tendencias", "agentes_log", "config"}
+            "alertas", "alertas_log", "conversoes", "cotacoes", "tendencias", "agentes_log", "config", "ofertas", "anuncios"}
 COOKIE = "ct_sessao"
 MAX_DOC = 256 * 1024
 MAX_ANEXO = 20 * 1024 * 1024
@@ -502,6 +502,8 @@ def pagina() -> str:
     return _ESQ + (WEB / "index.html").read_text(encoding="utf-8") + "</body></html>"
 
 
-@app.get("/app.js")
-def script() -> FileResponse:
-    return FileResponse(WEB / "app.js", media_type="text/javascript")
+@app.get("/{arquivo}.js")
+def script(arquivo: str) -> FileResponse:
+    if arquivo not in {"app", "modulos"}:
+        raise HTTPException(404, "Arquivo não encontrado.")
+    return FileResponse(WEB / f"{arquivo}.js", media_type="text/javascript")

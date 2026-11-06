@@ -81,3 +81,14 @@ def test_feed_junta_historico_e_mantem_ativos_antigos():
     assert len(next(q for q in d2["itens"] if q["id"] == "BTC")["historico"]) == 2
     longo = [{"id": "ETH", "preco": 5.0, "horario": "2026-11-01", "historico": [{"t": f"2026-10-{i:02d}", "c": i} for i in range(1, 31)]}]
     assert len(next(q for q in mesclar([], longo, "t")["itens"] if q["id"] == "ETH")["historico"]) == 31
+
+
+def test_velas_compactas_e_feed_mantem_velas():
+    from chinatrade.feed import mesclar
+    from chinatrade.integracoes.mercado import _velas
+    v = _velas([1793300000, 1793400000], {"open": [10.0, None], "high": [11.0, 12.0], "low": [9.5, 10.0], "close": [10.5, 11.5], "volume": [100, 200]})
+    assert v == [["2026-10-29", 10.0, 11.0, 9.5, 10.5, 100]]  # vela incompleta é descartada
+    ant = [{"id": "PETR4", "preco": 46.0, "horario": "2026-11-05T20:00:00Z", "velas": v, "historico": [{"t": f"2026-09-{i:02d}", "c": i} for i in range(1, 30)]}]
+    d = mesclar(ant, [{"id": "PETR4", "preco": 47.0, "horario": "2026-11-06T15:00:00Z"}], "t")
+    q = d["itens"][0]
+    assert q["velas"] == v and q["preco"] == 47.0 and len(q["historico"]) <= 40

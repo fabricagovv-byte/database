@@ -41,6 +41,27 @@ def _classe_acao(sid: str) -> tuple[str, str, str]:
     return EUA.get(sid, sid), ("etf" if sid in {"SPY", "QQQ"} else "acao_us"), "USD"
 
 
+def _arred(v: float | None) -> float | None:
+    if v is None:
+        return None
+    return round(v, 2) if abs(v) >= 100 else round(v, 4) if abs(v) >= 1 else round(v, 6)
+
+
+def _velas(ts: list, q: dict, data_so: bool = True) -> list[list]:
+    """[[tempo, abertura, máxima, mínima, fechamento, volume], ...] — formato compacto para o gráfico de trade."""
+    saida = []
+    for i, t in enumerate(ts):
+        o, h, lo, c = (q.get(k, [None] * len(ts))[i] for k in ("open", "high", "low", "close"))
+        if None in (o, h, lo, c):
+            continue
+        v = (q.get("volume") or [0] * len(ts))[i] or 0
+        saida.append([_iso(t)[:10] if data_so else int(t), _arred(o), _arred(h), _arred(lo), _arred(c), int(v)])
+    return saida
+
+
+AO_VIVO = ["IBOV", "SPX", "USDBRL", "CNYBRL", "BTC", "PETR4", "VALE3", "NVDA"]  # ganham gráfico intradiário de 15 min
+
+
 def simbolo_yahoo(sid: str) -> str:
     if sid in CRIPTO:
         return sid + "-USD"
@@ -77,9 +98,18 @@ class Yahoo:
             nome, classe, moeda, tipo = MOEDAS[sid[:3]], "moeda", "BRL", "indicativa"
         else:
             nome, classe, moeda = _classe_acao(sid)
+        velas = _velas(res.get("timestamp", []), res["indicators"]["quote"][0])
         return {"id": sid, "simbolo": sid, "nome": nome, "classe": classe, "moeda": moeda, "preco": preco,
                 "variacao_pct": (preco / ant - 1) * 100 if preco and ant else None, "horario": _iso(meta.get("regularMarketTime", 0)),
-                "fonte": self.nome, "tipo": tipo, "historico": hist[-180:]}
+                "fonte": self.nome, "tipo": tipo, "historico": hist[-180:], "velas": velas[-90:]}
+
+    def intradia(self, sid: str) -> list[list]:
+        """Velas de 15 minutos do último pregão (tempo em segundos UNIX)."""
+        r = self.c.get(f"https://query1.finance.yahoo.com/v8/finance/chart/{simbolo_yahoo(sid)}",
+                       params={"range": "1d", "interval": "15m"}, headers=UA)
+        r.raise_for_status()
+        res = r.json()["chart"]["result"][0]
+        return _velas(res.get("timestamp", []), res["indicators"]["quote"][0], data_so=False)
 
 
 class Brapi:
@@ -221,6 +251,11 @@ def coletar(extras: list[str] | None = None, cliente: httpx.Client | None = None
                 if q is None and av:
                     q = av.cotar(sid)
             if q and q.get("preco") is not None:
+                if q["id"] in AO_VIVO:
+                    try:
+                        q["intradia"] = yahoo.intradia(q["id"])
+                    except (httpx.HTTPError, KeyError, IndexError, TypeError, ValueError):
+                        pass  # o gráfico diário continua valendo
                 saida.append(q)
         except (httpx.HTTPError, KeyError, IndexError, TypeError, ValueError) as e:
             erros.append(f"{sid}: {type(e).__name__}: {e}"[:200])

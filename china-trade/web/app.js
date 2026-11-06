@@ -502,6 +502,7 @@ function abrirForm(col, id, pre = {}) {
     if (c.t === "bool") return `<label class="campo" style="flex-direction:row;align-items:center;gap:8px"><input type="checkbox" ${nm} ${v ? "checked" : ""}> ${esc(c.l)}</label>`;
     if (c.t === "select") return `<label class="campo">${esc(c.l)}<select ${nm}><option value="">—</option>${c.op.map((o) => `<option value="${esc(o)}" ${o === v ? "selected" : ""}>${esc(c.rot?.[o] || o)}</option>`).join("")}</select></label>`;
     if (c.t === "ref") return `<label class="campo">${esc(c.l)}<select ${nm}><option value="">—</option>${Store.todos(c.col).sort((a, b) => tituloDe(c.col, a).localeCompare(tituloDe(c.col, b))).map((o) => `<option value="${esc(o.id)}" ${o.id === v ? "selected" : ""}>${esc(tituloDe(c.col, o))}</option>`).join("")}</select></label>`;
+    if (c.t === "foto") return `<div class="campo" style="grid-column:1/-1"><span>${esc(c.l)}</span><div class="linha-foto">${fotoHTML(v, "foto-prev")}<input type="text" ${nm} value="${esc(v || "")}" placeholder="Cole o link da foto ou envie um arquivo"><input type="file" accept="image/*" aria-label="Enviar foto" data-foto-campo="${c.k}" ${Store.modo === "local" ? "disabled" : ""}></div><small class="suave">${Store.modo === "local" ? "Envio de fotos funciona no claude.ai ou com o servidor." : "Fotos enviadas aparecem na tela; links de outros sites abrem em nova aba."}</small></div>`;
     if (c.t === "anexos") return `<div class="campo" style="grid-column:1/-1"><span>${esc(c.l)}</span><div id="anexos-lista" class="chips">${(v || []).map((a, i) => `<span class="chip"><a href="${esc(a.url)}" target="_blank" rel="noopener">${esc(a.nome)}</a> <button class="btn mini" type="button" data-a="tirar-anexo" data-i="${i}">×</button></span>`).join("") || '<span class="suave">Nenhum documento.</span>'}</div>
       <input type="file" id="fm-anexo" ${Store.modo === "local" ? "disabled" : ""}><small class="suave">${Store.modo === "local" ? "Anexos ficam disponíveis no claude.ai ou com o servidor." : "PDF, imagem ou planilha até 20 MB."}</small></div>`;
     const tipo = c.t === "number" ? 'type="number" step="any" inputmode="decimal"' : c.t === "date" ? 'type="date"' : c.t === "url" ? 'type="url" placeholder="https://"' : 'type="text"';
@@ -705,7 +706,7 @@ function linhasConversao() {
 }
 
 T.trade = () => {
-  const lista = cotacoes().filter((q) => q.historico?.length);
+  const lista = cotacoes().filter((q) => q.velas?.length || q.historico?.length);
   const q = lista.find((x) => x.id === UI.ativo) || lista[0];
   const aba = UI.aba.trade || "analise";
   const abas = `<div class="ab" role="tablist">${[["analise", "Análise técnica"], ["backtest", "Backtesting"], ["paper", "Paper trading"], ["agentes", "Agentes"]].map(([k, r]) => `<button role="tab" aria-selected="${aba === k}" data-a="aba" data-t="trade" data-k="${k}">${r}</button>`).join("")}</div>`;
@@ -715,7 +716,7 @@ T.trade = () => {
   else if (aba === "paper") corpo = telaPaper();
   else if (!q) corpo = `<div class="vazio">MARKET WATCH AI precisa de histórico de preços. Assim que as cotações chegarem com histórico (servidor ou rotina de atualização), a análise aparece aqui.</div>`;
   else {
-    const a = q.historico.map((p) => +p.c);
+    const a = serieFech(q);
     if (aba === "analise") {
       const rsi = Ind.rsi(a), macd = Ind.macd(a), s20 = Ind.sma(a, 20).at(-1), s50 = Ind.sma(a, 50).at(-1), vol = Ind.volatilidade(a, q.classe === "cripto" ? 365 : 252), nv = Ind.niveis(a);
       const sinais = [];
@@ -732,7 +733,7 @@ T.trade = () => {
         <div class="kpi"><span class="rotulo">MM20 / MM50</span><b>${fmtN(s20)}</b><small>${fmtN(s50)}</small></div>
         <div class="kpi"><span class="rotulo">Volatilidade anual</span><b>${fmtN(vol, 1)}%</b><small>30 retornos</small></div>
         <div class="kpi"><span class="rotulo">Suporte / resistência</span><b>${fmtN(nv.suporte)}</b><small>${fmtN(nv.resistencia)}</small></div></div>
-        ${grafico(q.historico, { linhas: [{ v: nv.suporte, cor: "var(--alta)", r: "suporte" }, { v: nv.resistencia, cor: "var(--queda)", r: "resistência" }] })}
+        ${grafico(pontosGrafico(q), { linhas: [{ v: nv.suporte, cor: "var(--alta)", r: "suporte" }, { v: nv.resistencia, cor: "var(--queda)", r: "resistência" }] })}
         <section class="painel"><header><h2>Sinais calculados</h2><span class="suave">${a.length} pontos de histórico · ${esc(q.fonte || "")}</span></header>
           <ul style="margin:0;padding-left:18px">${sinais.map((s) => `<li>${esc(s)}</li>`).join("") || "<li>Histórico curto demais para sinais.</li>"}</ul>
           <div class="nota ia"><b>MARKET WATCH AI</b> escreve a leitura com fundamentos, dados usados, cenário alternativo e grau de incerteza. Não promete acerto nem executa ordens.</div>
@@ -889,7 +890,7 @@ T.china = () => {
     </section>
     <div class="filtros">${filtro("prod", "Filtrar produtos…")}</div>` +
     tabela("prod", prods, [
-      { l: "", h: (p) => (linkSeguro(p.imagem) ? `<img class="thumb" src="${esc(p.imagem)}" alt="" loading="lazy">` : `<span class="thumb" style="display:inline-block"></span>`) },
+      { l: "", h: (p) => fotoHTML(p.imagem) },
       { l: "Produto", h: (p) => `<b>${esc(p.nome)}</b>${exemplo(p)}<br><small class="suave">${esc(p.nome_cn || "")} ${p.plataforma ? "· " + esc(p.plataforma) : ""}</small>`, ord: (p) => p.nome },
       { l: "Fornecedor", v: (p) => nomeDe("fornecedores", p.fornecedor_id) || "—" },
       { l: "Preço origem", num: 1, v: (p) => moeda(p.preco_origem, p.moeda || "CNY"), ord: (p) => +p.preco_origem || 0 },
@@ -1324,7 +1325,7 @@ document.addEventListener("keydown", (ev) => {
 $("#busca-global").addEventListener("input", (ev) => {
   const t = ev.target.value.trim().toLowerCase(); const box = $("#resultados");
   if (t.length < 2) { box.hidden = true; return; }
-  const alvos = [["produtos", "china", "Produto"], ["fornecedores", "fornecedores", "Fornecedor"], ["links", "links", "Link"], ["clientes", "vendas", "Cliente"], ["tarefas", "crm", "Tarefa"], ["contatos", "fornecedores", "Contato"]];
+  const alvos = [["ofertas", "ofertas", "Oferta"], ["anuncios", "ofertas", "Anúncio"], ["produtos", "china", "Produto"], ["fornecedores", "fornecedores", "Fornecedor"], ["links", "links", "Link"], ["clientes", "vendas", "Cliente"], ["tarefas", "crm", "Tarefa"], ["contatos", "fornecedores", "Contato"]];
   const res = [];
   for (const [c, r, rot] of alvos) for (const d of Store.todos(c)) if (JSON.stringify(d).toLowerCase().includes(t)) res.push({ c, r, rot, d });
   for (const q of cotacoes()) if ((q.simbolo + " " + q.nome).toLowerCase().includes(t)) res.push({ r: q.classe === "moeda" ? "cambio" : q.classe === "cripto" ? "cripto" : "bolsa", rot: "Ativo", d: q, ativo: q.id });
@@ -1336,7 +1337,7 @@ document.addEventListener("click", (ev) => { if (!ev.target.closest(".busca")) $
 $("#abrir-menu").addEventListener("click", () => $("#menu").classList.toggle("aberto"));
 $("#tema").addEventListener("click", () => {
   const r = document.documentElement; const escuro = r.dataset.theme ? r.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
-  r.dataset.theme = escuro ? "light" : "dark"; try { localStorage.setItem("ct:tema", r.dataset.theme); } catch { /* sem armazenamento */ }
+  r.dataset.theme = escuro ? "light" : "dark"; render(); try { localStorage.setItem("ct:tema", r.dataset.theme); } catch { /* sem armazenamento */ }
 });
 try { const t = localStorage.getItem("ct:tema"); if (t) document.documentElement.dataset.theme = t; } catch { /* sem armazenamento */ }
 window.addEventListener("hashchange", () => { $("#menu").classList.remove("aberto"); render(); });
